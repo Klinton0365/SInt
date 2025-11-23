@@ -2,6 +2,21 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Layout, FixedPlugin } from "@/components";
+// import ScrollProgress from "./components/ScrollProgress";
+import ScrollProgress from "@/components/ScrollProgress";
+
+
+// export default function RootLayout({ children }) {
+//   return (
+//     <html lang="en">
+//       <body>
+//         {children}
+//         <ScrollProgress />
+//       </body>
+//     </html>
+//   );
+// }
+
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -35,7 +50,8 @@ export default function RootLayout({
       <body className={roboto.className}>
         <Layout>
           {children}
-          <FixedPlugin />
+          <ScrollProgress />
+          {/* <FixedPlugin /> */}
         </Layout>
       </body>
     </html>
