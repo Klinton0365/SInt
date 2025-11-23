@@ -6,18 +6,6 @@ import { Layout, FixedPlugin } from "@/components";
 import ScrollProgress from "@/components/ScrollProgress";
 
 
-// export default function RootLayout({ children }) {
-//   return (
-//     <html lang="en">
-//       <body>
-//         {children}
-//         <ScrollProgress />
-//       </body>
-//     </html>
-//   );
-// }
-
-
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700", "900"],
