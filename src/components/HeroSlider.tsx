@@ -10,7 +10,7 @@ const slides = [
     price: "$1,895",
     theme: "Residential",
     architect: "Daren Fletcher",
-    image: "/images/slide1.jpg",
+    image: "/image/banner/pexels-fotoaibe-1571460.jpg",
   },
   {
     title: "Modern Hillside Villa",
@@ -19,7 +19,7 @@ const slides = [
     price: "$2,400",
     theme: "Luxury",
     architect: "Alex Johnson",
-    image: "/images/slide2.jpg",
+    image: "/image/banner/pexels-jvdm-1457842.jpg",
   },
 ];
 
