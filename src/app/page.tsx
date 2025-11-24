@@ -1,5 +1,6 @@
 // components
 import { Navbar, Footer } from "@/components";
+import IntroSection from "@/components/IntroSection";
 import HeroSlider from "@/components/HeroSlider";
 
 // sections
@@ -11,6 +12,7 @@ export default function Campaign() {
   return (
     <>
       <Navbar />
+      <IntroSection />
       <HeroSlider />
       <Hero />
       <Posts />
