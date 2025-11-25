@@ -3,6 +3,7 @@ import { Navbar, Footer } from "@/components";
 import IntroSection from "@/components/IntroSection";
 import HeroSlider from "@/components/HeroSlider";
 import AboutSection from "@/components/about-us";
+import CounterSection from "@/components/counter-section";
 
 // sections
 import Hero from "./hero";
@@ -16,6 +17,7 @@ export default function Campaign() {
       <IntroSection />
       <HeroSlider />
       <AboutSection />
+      <CounterSection />
       <Hero />
       <Posts />
       <Articles />
