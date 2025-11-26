@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 interface Service {
@@ -11,6 +11,7 @@ interface Service {
 
 const ServicesSection: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const services: Service[] = [
@@ -50,22 +51,20 @@ const ServicesSection: React.FC = () => {
       description: 'Creative decor plans that balance style, comfort and functional harmony.',
       link: '#'
     },
-    {
-      icon: '🍳',
-      title: 'Kitchen design',
-      description: 'Transforming everyday cooking with elegant modern and functional kitchen design.',
-      link: '#'
-    },
-    {
-      icon: '🛁',
-      title: 'Bathroom design',
-      description: 'Elevating daily routines with timeless, modern and elegant bathroom design.',
-      link: '#'
-    }
   ];
 
   const itemsPerView = 3;
   const maxSlide = Math.max(0, services.length - itemsPerView);
+
+  useEffect(() => {
+    if (isHovering) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isHovering, maxSlide]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
@@ -84,13 +83,10 @@ const ServicesSection: React.FC = () => {
         {/* Section Header */}
         <div className="section-header">
           <div className="section-linetitle">
-            <div className="letter-circle">
-              <h4>S</h4>
-            </div>
             <div className="line"></div>
           </div>
           <div className="title-wrapper">
-            <h6 className="sub-title">SERVICES.</h6>
+            <h6 className="sub-title">EXCLUSIVE SERVICES</h6>
           </div>
           <div className="corner-arrow">
             <Link href="/services">
@@ -113,7 +109,12 @@ const ServicesSection: React.FC = () => {
               }}
             >
               {services.map((service, index) => (
-                <div key={index} className="service-item">
+                <div 
+                  key={index} 
+                  className="service-item"
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                >
                   <Link href={service.link}>
                     <span className="item-arrow">
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -227,8 +228,10 @@ const ServicesSection: React.FC = () => {
 
         .sub-title {
           margin: 0;
-          font-size: 16px;
-          font-weight: 400;
+            font-size: 75px;
+    font-weight: 500;
+    line-height: 80px;
+    letter-spacing: -1px;
           color: rgba(255, 255, 255, 0.8);
           letter-spacing: 2px;
         }
