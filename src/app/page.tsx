@@ -1,10 +1,11 @@
 // components
-import { Navbar, Footer } from "@/components";
+import { Navbar } from "@/components";
 import IntroSection from "@/components/IntroSection";
 import HeroSlider from "@/components/HeroSlider";
 import AboutSection from "@/components/about-us";
 import CounterSection from "@/components/counter-section";
 import ServicesSection from "@/components/services";
+import Footer from "@/components/footer1";
 
 // sections
 import Hero from "./hero";
