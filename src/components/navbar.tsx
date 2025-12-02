@@ -35,22 +35,44 @@ interface NavItemProps {
   href?: string;
 }
 
+// function NavItem({ children, href }: NavItemProps) {
+//   return (
+//     <li>
+//       <Typography
+//         as="a"
+//         href={href || "#"}
+//         target={href ? "_blank" : "_self"}
+//         variant="paragraph"
+//         color="gray"
+//         className="flex items-center gap-2 font-medium text-gray-900"
+//       >
+//         {children}
+//       </Typography>
+//     </li>
+//   );
+// }
+
 function NavItem({ children, href }: NavItemProps) {
+  const text = String(children).split("");
+
   return (
     <li>
-      <Typography
-        as="a"
-        href={href || "#"}
-        target={href ? "_blank" : "_self"}
-        variant="paragraph"
-        color="gray"
-        className="flex items-center gap-2 font-medium text-gray-900"
-      >
-        {children}
-      </Typography>
+      <a href={href || "#"} className="login-button flex items-center gap-2">
+        <span className="span-mother">
+          {text.map((char, i) => (
+            <span key={i}>{char}</span>
+          ))}
+        </span>
+        <span className="span-mother2">
+          {text.map((char, i) => (
+            <span key={i}>{char}</span>
+          ))}
+        </span>
+      </a>
     </li>
   );
 }
+
 
 export function Navbar() {
   const [open, setOpen] = React.useState(false);
@@ -76,20 +98,75 @@ export function Navbar() {
         >
           Material Tailwind
         </Typography>
-        <ul className="ml-10 hidden items-center gap-8 lg:flex">
+        {/* <ul className="ml-10 hidden items-center gap-8 lg:flex">
           {NAV_MENU.map(({ name, icon: Icon, href }) => (
             <NavItem key={name} href={href}>
               <Icon className="h-5 w-5" />
               {name}
             </NavItem>
           ))}
+        </ul> */}
+        <ul className="ml-10 hidden items-center gap-8 lg:flex">
+          {NAV_MENU.map(({ name, icon: Icon, href }) => (
+            <NavItem key={name} href={href}>
+              {name}
+            </NavItem>
+          ))}
         </ul>
+
         <div className="hidden items-center gap-2 lg:flex">
           <Button variant="text">Sign In</Button>
           <a href="https://www.material-tailwind.com/blocks" target="_blank">
             <Button color="gray">blocks</Button>
           </a>
         </div>
+        <style jsx global>{`
+        .login-button {
+  font-weight: bold;
+  color: #3653f8;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.login-button .span-mother,
+.login-button .span-mother2 {
+  display: flex;
+  overflow: hidden;
+}
+
+.login-button .span-mother span {
+  transition: 0.2s;
+}
+
+.login-button .span-mother2 {
+  position: absolute;
+}
+
+.login-button .span-mother2 span {
+  transform: translateY(-1.2em);
+  transition: 0.2s;
+}
+
+/* Hover Effect */
+.login-button:hover .span-mother span {
+  transform: translateY(1.2em);
+}
+
+.login-button:hover .span-mother2 span {
+  transform: translateY(0);
+}
+
+/* Delay each character */
+.login-button span:nth-child(2) { transition-delay: 0.1s; }
+.login-button span:nth-child(3) { transition-delay: 0.2s; }
+.login-button span:nth-child(4) { transition-delay: 0.3s; }
+.login-button span:nth-child(5) { transition-delay: 0.4s; }
+.login-button span:nth-child(6) { transition-delay: 0.5s; }
+
+        `}</style>
         <IconButton
           variant="text"
           color="gray"

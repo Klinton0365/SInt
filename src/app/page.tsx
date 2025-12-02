@@ -21,9 +21,9 @@ export default function Campaign() {
       <AboutSection />
       <CounterSection />
       <ServicesSection />
-      <Hero />
-      <Posts />
-      <Articles />
+      {/* <Hero /> */}
+      {/* <Posts /> */}
+      {/* <Articles /> */}
       <Footer />
     </>
   );
