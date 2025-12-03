@@ -120,8 +120,8 @@ export function Navbar() {
             <Button color="gray">blocks</Button>
           </a>
         </div>
-        <style jsx global>{`
-        .login-button {
+<style jsx global>{`
+.login-button {
   font-weight: bold;
   color: #3653f8;
   cursor: pointer;
@@ -138,7 +138,7 @@ export function Navbar() {
 }
 
 .login-button .span-mother span {
-  transition: 0.2s;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .login-button .span-mother2 {
@@ -147,7 +147,7 @@ export function Navbar() {
 
 .login-button .span-mother2 span {
   transform: translateY(-1.2em);
-  transition: 0.2s;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Hover Effect */
@@ -159,14 +159,16 @@ export function Navbar() {
   transform: translateY(0);
 }
 
-/* Delay each character */
-.login-button span:nth-child(2) { transition-delay: 0.1s; }
-.login-button span:nth-child(3) { transition-delay: 0.2s; }
-.login-button span:nth-child(4) { transition-delay: 0.3s; }
-.login-button span:nth-child(5) { transition-delay: 0.4s; }
-.login-button span:nth-child(6) { transition-delay: 0.5s; }
-
-        `}</style>
+/* Delay each character - smoother progression */
+.login-button span:nth-child(1) { transition-delay: 0s; }
+.login-button span:nth-child(2) { transition-delay: 0.05s; }
+.login-button span:nth-child(3) { transition-delay: 0.1s; }
+.login-button span:nth-child(4) { transition-delay: 0.15s; }
+.login-button span:nth-child(5) { transition-delay: 0.2s; }
+.login-button span:nth-child(6) { transition-delay: 0.25s; }
+.login-button span:nth-child(7) { transition-delay: 0.3s; }
+.login-button span:nth-child(8) { transition-delay: 0.35s; }
+`}</style>
         <IconButton
           variant="text"
           color="gray"

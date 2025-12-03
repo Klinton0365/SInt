@@ -5,6 +5,7 @@ import HeroSlider from "@/components/HeroSlider";
 import AboutSection from "@/components/about-us";
 import CounterSection from "@/components/counter-section";
 import ServicesSection from "@/components/services";
+import TestimonialSection from "@/components/testimonial";
 import Footer from "@/components/footer1";
 
 // sections
@@ -21,6 +22,7 @@ export default function Campaign() {
       <AboutSection />
       <CounterSection />
       <ServicesSection />
+      <TestimonialSection />
       {/* <Hero /> */}
       {/* <Posts /> */}
       {/* <Articles /> */}
