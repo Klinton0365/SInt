@@ -44,13 +44,19 @@ export default function TestimonialSection() {
       <div className="max-w-7xl mx-auto">
         {/* Section Title */}
         <div className="flex justify-end mb-8">
-          <div className="text-right">
-            <h2 className="text-5xl md:text-6xl font-bold text-black leading-tight">
+          <div className="text-right section-title">
+            <h2 style={{
+              fontSize: '75px',
+              fontWeight: 500,
+              lineHeight: '80px',
+              letterSpacing: '-1px',
+              color: '#171717'
+            }}>
               What Our Clients
               <br />
               <span className="inline-flex items-center gap-2">
                 <svg 
-                  className="w-8 h-8 text-gray-400" 
+                  className="w-12 h-12 text-gray-400" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -146,7 +152,7 @@ export default function TestimonialSection() {
           <div className="lg:col-span-5">
             <div className="h-full min-h-[400px] bg-gray-200 rounded-lg overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=800&fit=crop"
+                src="image/testimonial-bg-BW_RrgxT.jpg?w=800&h=800&fit=crop"
                 alt="Architectural floor plan"
                 className="w-full h-full object-cover"
               />
