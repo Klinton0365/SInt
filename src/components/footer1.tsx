@@ -84,18 +84,18 @@ const Footer: React.FC = () => {
           margin-top: 100px;
         }
 
-        .footer-background {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=80');
-          background-size: cover;
-          background-position: center;
-          background-attachment: fixed;
-          z-index: -1;
-        }
+.footer-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: -1;
+}
 
         .footer-background::before {
           content: '';
