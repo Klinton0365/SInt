@@ -1,7 +1,30 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
 import { Instagram, Twitter, Facebook } from 'lucide-react';
+
+interface NavItemProps {
+  children: React.ReactNode;
+  href?: string;
+}
+
+function NavItem({ children, href }: NavItemProps) {
+  const text = String(children).split("");
+
+  return (
+    <a href={href || "#"} className="footer-link-animated">
+      <span className="span-mother">
+        {text.map((char, i) => (
+          <span key={i}>{char}</span>
+        ))}
+      </span>
+      <span className="span-mother2">
+        {text.map((char, i) => (
+          <span key={i}>{char}</span>
+        ))}
+      </span>
+    </a>
+  );
+}
 
 const Footer: React.FC = () => {
   return (
@@ -17,14 +40,14 @@ const Footer: React.FC = () => {
             {/* Logo */}
             <div className="footer-logo">
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <path d="M8 32V8H24L32 16V32M24 8V16H32" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" fill="none"/>
+                <path d="M8 32V8H24L32 16V32M24 8V16H32" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" fill="none" />
               </svg>
-              <span>ORNAVA</span>
+              <span>Subhash Interior</span>
             </div>
 
             {/* Description */}
             <p className="footer-description">
-              Ornava designs timeless, functional spaces with aesthetic clarity and material harmony.
+              Subhash Interior designs timeless, functional spaces with aesthetic clarity and material harmony.
             </p>
 
             {/* Social Links */}
@@ -49,7 +72,7 @@ const Footer: React.FC = () => {
                 <p className="contact-item">0665 Broadway st. 10234 NY, USA</p>
                 <p className="contact-item">+1 123 567 8910</p>
                 <a href="mailto:design@ornava.com" className="contact-item contact-email">
-                  design@ornava.com
+                  design@subhashinterior.com
                 </a>
               </div>
             </div>
@@ -62,11 +85,11 @@ const Footer: React.FC = () => {
         {/* Bottom Section */}
         <div className="footer-bottom">
           <div className="footer-nav">
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/services">Services</Link>
-            <Link href="/portfolio">Portfolio</Link>
-            <Link href="/contact">Contact</Link>
+            <NavItem href="/">Home</NavItem>
+            <NavItem href="/about">About</NavItem>
+            <NavItem href="/services">Services</NavItem>
+            <NavItem href="/portfolio">Portfolio</NavItem>
+            <NavItem href="/contact">Contact</NavItem>
           </div>
           <p className="footer-copyright">Copyright 2026 by DuruThemes</p>
         </div>
@@ -84,18 +107,18 @@ const Footer: React.FC = () => {
           margin-top: 100px;
         }
 
-.footer-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1920&q=80');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  z-index: -1;
-}
+        .footer-background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1920&q=80');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          z-index: -1;
+        }
 
         .footer-background::before {
           content: '';
@@ -242,49 +265,66 @@ const Footer: React.FC = () => {
           gap: 40px;
         }
 
-        .footer-nav a {
-          font-size: 14px;
+        /* Animated Footer Links - EXACT same as header */
+        .footer-link-animated {
+          font-weight: bold;
           color: rgba(255, 255, 255, 0.7);
+          cursor: pointer;
+          display: flex;
+          position: relative;
+          overflow: hidden;
+          text-transform: uppercase;
           text-decoration: none;
-          transition: all 0.3s ease;
+          font-size: 14px;
           letter-spacing: 0.5px;
         }
 
-        .footer-nav a:hover {
+        .footer-link-animated .span-mother,
+        .footer-link-animated .span-mother2 {
+          display: flex;
+          overflow: hidden;
+        }
+
+        .footer-link-animated .span-mother span {
+          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer-link-animated .span-mother2 {
+          position: absolute;
           color: rgba(210, 180, 140, 0.9);
         }
+
+        .footer-link-animated .span-mother2 span {
+          transform: translateY(-1.2em);
+          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Hover Effect */
+        .footer-link-animated:hover .span-mother span {
+          transform: translateY(1.2em);
+        }
+
+        .footer-link-animated:hover .span-mother2 span {
+          transform: translateY(0);
+        }
+
+        /* Delay each character - smoother progression */
+        .footer-link-animated span:nth-child(1) { transition-delay: 0s; }
+        .footer-link-animated span:nth-child(2) { transition-delay: 0.05s; }
+        .footer-link-animated span:nth-child(3) { transition-delay: 0.1s; }
+        .footer-link-animated span:nth-child(4) { transition-delay: 0.15s; }
+        .footer-link-animated span:nth-child(5) { transition-delay: 0.2s; }
+        .footer-link-animated span:nth-child(6) { transition-delay: 0.25s; }
+        .footer-link-animated span:nth-child(7) { transition-delay: 0.3s; }
+        .footer-link-animated span:nth-child(8) { transition-delay: 0.35s; }
+        .footer-link-animated span:nth-child(9) { transition-delay: 0.4s; }
+        .footer-link-animated span:nth-child(10) { transition-delay: 0.45s; }
 
         .footer-copyright {
           font-size: 13px;
           color: rgba(255, 255, 255, 0.5);
           margin: 0;
           letter-spacing: 0.3px;
-        }
-
-        /* Scroll to top button */
-        .scroll-to-top {
-          position: fixed;
-          bottom: 40px;
-          right: 40px;
-          width: 50px;
-          height: 50px;
-          background: transparent;
-          border: 1px solid rgba(210, 180, 140, 0.6);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          color: rgba(210, 180, 140, 0.8);
-          transition: all 0.3s ease;
-          z-index: 999;
-        }
-
-        .scroll-to-top:hover {
-          background: rgba(210, 180, 140, 0.1);
-          border-color: rgba(210, 180, 140, 0.9);
-          color: rgba(210, 180, 140, 1);
-          transform: translateY(-3px);
         }
 
         @media (max-width: 1024px) {

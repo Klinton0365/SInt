@@ -35,23 +35,6 @@ interface NavItemProps {
   href?: string;
 }
 
-// function NavItem({ children, href }: NavItemProps) {
-//   return (
-//     <li>
-//       <Typography
-//         as="a"
-//         href={href || "#"}
-//         target={href ? "_blank" : "_self"}
-//         variant="paragraph"
-//         color="gray"
-//         className="flex items-center gap-2 font-medium text-gray-900"
-//       >
-//         {children}
-//       </Typography>
-//     </li>
-//   );
-// }
-
 function NavItem({ children, href }: NavItemProps) {
   const text = String(children).split("");
 
@@ -72,7 +55,6 @@ function NavItem({ children, href }: NavItemProps) {
     </li>
   );
 }
-
 
 export function Navbar() {
   const [open, setOpen] = React.useState(false);
@@ -96,16 +78,8 @@ export function Navbar() {
           color="blue-gray"
           className="text-lg font-bold"
         >
-          Material Tailwind
+          Subhash Interior
         </Typography>
-        {/* <ul className="ml-10 hidden items-center gap-8 lg:flex">
-          {NAV_MENU.map(({ name, icon: Icon, href }) => (
-            <NavItem key={name} href={href}>
-              <Icon className="h-5 w-5" />
-              {name}
-            </NavItem>
-          ))}
-        </ul> */}
         <ul className="ml-10 hidden items-center gap-8 lg:flex">
           {NAV_MENU.map(({ name, icon: Icon, href }) => (
             <NavItem key={name} href={href}>
