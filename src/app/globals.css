@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  cursor: none !important;
+}
+
+button,
+a,
+input,
+textarea,
+select,
+[role="button"],
+.cursor-pointer {
+  cursor: none !important;
+}
+
+/* Optional: Keep cursor visible on touch devices for accessibility */
+@media (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+}

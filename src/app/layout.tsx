@@ -2,8 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Layout, FixedPlugin } from "@/components";
-// import ScrollProgress from "./components/ScrollProgress";
 import ScrollProgress from "@/components/ScrollProgress";
+import CustomCursor from "@/components/CustomCursor";
 
 
 const roboto = Roboto({
@@ -36,6 +36,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.png" type="image/png" />
       </head>
       <body className={roboto.className}>
+        <CustomCursor />
         <Layout>
           {children}
           <ScrollProgress />
