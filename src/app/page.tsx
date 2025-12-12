@@ -9,6 +9,8 @@ import TestimonialSection from "@/components/testimonial";
 import ContactSection from "@/components/contact-us";
 import Footer from "@/components/footer1";
 import ClientCarousel from "@/components/ClientCarousel";
+import ResultsShowcase from "@/components/ResultsShowcase";
+import DesignInsights from "@/components/DesignInsights";
 
 // sections
 import Hero from "./hero";
@@ -23,10 +25,12 @@ export default function Campaign() {
       <HeroSlider />
       <ClientCarousel />
       <AboutSection />
+      <ResultsShowcase />
       <CounterSection />
       <ServicesSection />
       <TestimonialSection />
       <ContactSection />
+      <DesignInsights />
       {/* <Hero /> */}
       {/* <Posts /> */}
       {/* <Articles /> */}
