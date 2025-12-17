@@ -91,7 +91,19 @@ const Footer: React.FC = () => {
             <NavItem href="/portfolio">Portfolio</NavItem>
             <NavItem href="/contact">Contact</NavItem>
           </div>
-          <p className="footer-copyright">Copyright 2026 by DuruThemes</p>
+          {/* <p className="footer-copyright">Copyright 2026 by DuruThemes</p> */}
+          <p className="footer-copyright">
+            © 2026. Designed &amp; Developed by{" "}
+            <a
+              href="https://thewebwave.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              The Web Wave
+            </a>
+          </p>
+
         </div>
       </div>
 
@@ -99,12 +111,12 @@ const Footer: React.FC = () => {
         .footer {
           position: relative;
           width: 100%;
-          min-height: 500px;
+          min-height: 400px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           overflow: hidden;
-          margin-top: 100px;
+          margin-top: 50px;
         }
 
         .footer-background {
@@ -137,7 +149,7 @@ const Footer: React.FC = () => {
           max-width: 1400px;
           margin: 0 auto;
           width: 100%;
-          padding: 80px 40px;
+          padding: 40px 40px;
           display: flex;
           flex-direction: column;
           height: 100%;
