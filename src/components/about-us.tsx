@@ -16,7 +16,7 @@ interface AboutSectionProps {
 const AboutSection: React.FC<AboutSectionProps> = ({
   title = "About",
   subtitle = "Subhash Interior",
-  mainHeading = "Archipix is a team of experienced architects and interior designers",
+  mainHeading = "Subhash Interior is a team of experienced architects and interior designers",
   description = "who are passionate about creating beautiful, functional spaces. We believe that good design should be accessible to everyone, and we work hard to make sure that our client's vision become reality.",
   imageSrc = "/image/pexels-jvdm-1457842.jpg",
   imageAlt = "Modern architectural design",

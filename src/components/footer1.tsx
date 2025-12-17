@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
               <div className="contact-info">
                 <p className="contact-item">0665 Broadway st. 10234 NY, USA</p>
                 <p className="contact-item">+1 123 567 8910</p>
-                <a href="mailto:design@ornava.com" className="contact-item contact-email">
+                <a href="mailto:design@subhashinterior.com" className="contact-item contact-email">
                   design@subhashinterior.com
                 </a>
               </div>
@@ -95,7 +95,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style jsx global>{`
         .footer {
           position: relative;
           width: 100%;
@@ -263,6 +263,7 @@ const Footer: React.FC = () => {
         .footer-nav {
           display: flex;
           gap: 40px;
+          color: white;
         }
 
         /* Animated Footer Links - EXACT same as header */
