@@ -4,197 +4,200 @@ import { Award, Users, Lightbulb, Target, ArrowRight, CheckCircle } from 'lucide
 
 import { Navbar } from "@/components";
 import Footer from "@/components/footer1";
+import TimelinePage from "@/components/timeline";
 
 export default function AboutPage() {
-    const [scrollY, setScrollY] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll);
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
 
-        setTimeout(() => setIsVisible(true), 300);
+    setTimeout(() => setIsVisible(true), 300);
 
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    const values = [
-        {
-            icon: Award,
-            title: "Excellence",
-            description: "We pursue perfection in every detail, from concept to completion."
-        },
-        {
-            icon: Lightbulb,
-            title: "Innovation",
-            description: "Pushing boundaries with cutting-edge design solutions."
-        },
-        {
-            icon: Users,
-            title: "Collaboration",
-            description: "Your vision combined with our expertise creates magic."
-        },
-        {
-            icon: Target,
-            title: "Precision",
-            description: "Meticulous attention to detail ensures flawless execution."
-        }
-    ];
+  const values = [
+    {
+      icon: Award,
+      title: "Excellence",
+      description: "We pursue perfection in every detail, from concept to completion."
+    },
+    {
+      icon: Lightbulb,
+      title: "Innovation",
+      description: "Pushing boundaries with cutting-edge design solutions."
+    },
+    {
+      icon: Users,
+      title: "Collaboration",
+      description: "Your vision combined with our expertise creates magic."
+    },
+    {
+      icon: Target,
+      title: "Precision",
+      description: "Meticulous attention to detail ensures flawless execution."
+    }
+  ];
 
-    const milestones = [
-        { year: "2010", title: "Founded", description: "Started with a vision to transform spaces" },
-        { year: "2015", title: "100+ Projects", description: "Reached our first century of completed projects" },
-        { year: "2020", title: "Award Winning", description: "Recognized as India's top interior design firm" },
-        { year: "2025", title: "Global Expansion", description: "Opening studios across major cities worldwide" }
-    ];
+  const milestones = [
+    { year: "2010", title: "Founded", description: "Started with a vision to transform spaces" },
+    { year: "2015", title: "100+ Projects", description: "Reached our first century of completed projects" },
+    { year: "2020", title: "Award Winning", description: "Recognized as India's top interior design firm" },
+    { year: "2025", title: "Global Expansion", description: "Opening studios across major cities worldwide" }
+  ];
 
-    return (
-        <>
-            <Navbar />
+  return (
+    <>
+      <Navbar />
 
-            <div className="about-page">
-                {/* Hero Section - Parallax with Split Design */}
-                <section className="hero-section">
-                    <div className="hero-background" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
-                        <div className="hero-image-left"></div>
-                        <div className="hero-image-right"></div>
-                    </div>
+      <div className="about-page">
+        {/* Hero Section - Parallax with Split Design */}
+        <section className="hero-section">
+          <div className="hero-background" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
+            <div className="hero-image-left"></div>
+            <div className="hero-image-right"></div>
+          </div>
 
-                    <div className="hero-overlay"></div>
+          <div className="hero-overlay"></div>
 
-                    <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
-                        <div className="hero-badge">Est. 2010</div>
-                        <h1 className="hero-title">
-                            <span className="title-line">Crafting</span>
-                            <span className="title-line title-accent">Beautiful Spaces</span>
-                        </h1>
-                        <p className="hero-subtitle">Where timeless design meets modern innovation</p>
+          <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
+            <div className="hero-badge">Est. 2010</div>
+            <h1 className="hero-title">
+              <span className="title-line">Crafting</span>
+              <span className="title-line title-accent">Beautiful Spaces</span>
+            </h1>
+            <p className="hero-subtitle">Where timeless design meets modern innovation</p>
 
-                        <div className="hero-stats">
-                            <div className="stat-item">
-                                <div className="stat-number">500+</div>
-                                <div className="stat-label">Projects</div>
-                            </div>
-                            <div className="stat-divider"></div>
-                            <div className="stat-item">
-                                <div className="stat-number">15</div>
-                                <div className="stat-label">Years</div>
-                            </div>
-                            <div className="stat-divider"></div>
-                            <div className="stat-item">
-                                <div className="stat-number">98%</div>
-                                <div className="stat-label">Satisfaction</div>
-                            </div>
-                        </div>
-                    </div>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <div className="stat-number">500+</div>
+                <div className="stat-label">Projects</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <div className="stat-number">15</div>
+                <div className="stat-label">Years</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <div className="stat-number">98%</div>
+                <div className="stat-label">Satisfaction</div>
+              </div>
+            </div>
+          </div>
 
-                    <div className="scroll-indicator">
-                        <div className="scroll-line"></div>
-                        <span>Scroll to explore</span>
-                    </div>
-                </section>
+          <div className="scroll-indicator">
+            <div className="scroll-line"></div>
+            <span>Scroll to explore</span>
+          </div>
+        </section>
 
-                {/* Our Story Section - Asymmetric Layout */}
-                <section className="story-section">
-                    <div className="story-container">
-                        <div className="story-image-wrapper">
-                            <div className="story-image"></div>
-                            <div className="story-accent-box"></div>
-                        </div>
+        {/* Our Story Section - Asymmetric Layout */}
+        <section className="story-section">
+          <div className="story-container">
+            <div className="story-image-wrapper">
+              <div className="story-image"></div>
+              <div className="story-accent-box"></div>
+            </div>
 
-                        <div className="story-content">
-                            <div className="section-label">Our Journey</div>
-                            <h2 className="story-title">
-                                A Legacy Built on <span className="highlight">Passion</span> and <span className="highlight">Precision</span>
-                            </h2>
+            <div className="story-content">
+              <div className="section-label">Our Journey</div>
+              <h2 className="story-title">
+                A Legacy Built on <span className="highlight">Passion</span> and <span className="highlight">Precision</span>
+              </h2>
 
-                            <div className="story-text">
-                                <p>
-                                    What began in 2010 as a small studio with a bold vision has evolved into one of India's most celebrated interior design firms. Subhash Interior was founded on the belief that great design isn't just about aesthetics—it's about creating spaces that elevate the human experience.
-                                </p>
+              <div className="story-text">
+                <p>
+                  What began in 2010 as a small studio with a bold vision has evolved into one of India's most celebrated interior design firms. Subhash Interior was founded on the belief that great design isn't just about aesthetics—it's about creating spaces that elevate the human experience.
+                </p>
 
-                                <p>
-                                    Our founder, Subhash Kumar, started with a simple philosophy: "Every space tells a story. Our job is to help you tell yours beautifully." This principle continues to guide every project we undertake, from intimate residential spaces to grand commercial developments.
-                                </p>
+                <p>
+                  Our founder, Subhash Kumar, started with a simple philosophy: "Every space tells a story. Our job is to help you tell yours beautifully." This principle continues to guide every project we undertake, from intimate residential spaces to grand commercial developments.
+                </p>
 
-                                <p>
-                                    Over the years, we've had the privilege of working with hundreds of clients, transforming their visions into stunning realities. Each project has taught us something new, refined our craft, and deepened our commitment to excellence.
-                                </p>
-                            </div>
+                <p>
+                  Over the years, we've had the privilege of working with hundreds of clients, transforming their visions into stunning realities. Each project has taught us something new, refined our craft, and deepened our commitment to excellence.
+                </p>
+              </div>
 
-                            <div className="story-highlights">
-                                <div className="highlight-item">
-                                    <CheckCircle className="highlight-icon" />
-                                    <span>Award-winning design team</span>
-                                </div>
-                                <div className="highlight-item">
-                                    <CheckCircle className="highlight-icon" />
-                                    <span>Sustainable & eco-friendly practices</span>
-                                </div>
-                                <div className="highlight-item">
-                                    <CheckCircle className="highlight-icon" />
-                                    <span>End-to-end project management</span>
-                                </div>
-                            </div>
+              <div className="story-highlights">
+                <div className="highlight-item">
+                  <CheckCircle className="highlight-icon" />
+                  <span>Award-winning design team</span>
+                </div>
+                <div className="highlight-item">
+                  <CheckCircle className="highlight-icon" />
+                  <span>Sustainable & eco-friendly practices</span>
+                </div>
+                <div className="highlight-item">
+                  <CheckCircle className="highlight-icon" />
+                  <span>End-to-end project management</span>
+                </div>
+              </div>
 
-                            <button className="story-cta">
-                                <span>View Our Portfolio</span>
-                                <ArrowRight size={20} />
-                            </button>
-                        </div>
-                    </div>
-                </section>
+              <button className="story-cta">
+                <span>View Our Portfolio</span>
+                <ArrowRight size={20} />
+              </button>
+            </div>
+          </div>
+        </section>
 
-                {/* Values Section - Grid with Hover Effects */}
-                <section className="values-section">
-                    <div className="values-container">
-                        <div className="values-header">
-                            <div className="section-label">Core Values</div>
-                            <h2 className="values-title">What Drives Us Forward</h2>
-                            <p className="values-subtitle">
-                                Our principles guide every decision, every design, and every client interaction.
-                            </p>
-                        </div>
+        {/* Values Section - Grid with Hover Effects */}
+        <section className="values-section">
+          <div className="values-container">
+            <div className="values-header">
+              <div className="section-label">Core Values</div>
+              <h2 className="values-title">What Drives Us Forward</h2>
+              <p className="values-subtitle">
+                Our principles guide every decision, every design, and every client interaction.
+              </p>
+            </div>
 
-                        <div className="values-grid">
-                            {values.map((value, index) => (
-                                <div key={index} className="value-card">
-                                    <div className="value-icon-wrapper">
-                                        <value.icon className="value-icon" size={32} />
-                                    </div>
-                                    <h3 className="value-title">{value.title}</h3>
-                                    <p className="value-description">{value.description}</p>
-                                    <div className="value-number">0{index + 1}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+            <div className="values-grid">
+              {values.map((value, index) => (
+                <div key={index} className="value-card">
+                  <div className="value-icon-wrapper">
+                    <value.icon className="value-icon" size={32} />
+                  </div>
+                  <h3 className="value-title">{value.title}</h3>
+                  <p className="value-description">{value.description}</p>
+                  <div className="value-number">0{index + 1}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                {/* Timeline Section */}
-                <section className="timeline-section">
-                    <div className="timeline-container">
-                        <div className="section-label">Our Milestones</div>
-                        <h2 className="timeline-title">The Journey So Far</h2>
+        {/* Timeline Section */}
+        <section className="timeline-section">
+          <div className="timeline-container">
+            <div className="section-label">Our Milestones</div>
+            <h2 className="timeline-title">The Journey So Far</h2>
 
-                        <div className="timeline">
-                            {milestones.map((milestone, index) => (
-                                <div key={index} className="timeline-item">
-                                    <div className="timeline-marker">
-                                        <div className="timeline-dot"></div>
-                                    </div>
-                                    <div className="timeline-content">
-                                        <div className="timeline-year">{milestone.year}</div>
-                                        <h3 className="timeline-event-title">{milestone.title}</h3>
-                                        <p className="timeline-description">{milestone.description}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+            <div className="timeline">
+              {milestones.map((milestone, index) => (
+                <div key={index} className="timeline-item">
+                  <div className="timeline-marker">
+                    <div className="timeline-dot"></div>
+                  </div>
+                  <div className="timeline-content">
+                    <div className="timeline-year">{milestone.year}</div>
+                    <h3 className="timeline-event-title">{milestone.title}</h3>
+                    <p className="timeline-description">{milestone.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                <style jsx>{`
+        {/* <TimelinePage /> */}
+
+        <style jsx>{`
         .about-page {
           width: 100%;
           overflow-x: hidden;
@@ -763,9 +766,9 @@ export default function AboutPage() {
           }
         }
       `}</style>
-            </div>
+      </div>
 
-            <Footer />
-        </>
-    );
+      <Footer />
+    </>
+  );
 }

@@ -2,31 +2,35 @@ import React from "react";
 import {
   Navbar as MTNavbar,
   Collapse,
-  Button,
   IconButton,
   Typography,
 } from "@material-tailwind/react";
 import {
-  RectangleStackIcon,
-  UserCircleIcon,
-  CommandLineIcon,
   XMarkIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 
 const NAV_MENU = [
   {
-    name: "Page",
-    icon: RectangleStackIcon,
+    name: "Home",
+    href: "/",
+    isIcon: true,
   },
   {
-    name: "Account",
-    icon: UserCircleIcon,
+    name: "About",
+    href: "/about",
   },
   {
-    name: "Docs",
-    icon: CommandLineIcon,
-    href: "https://www.material-tailwind.com/docs/react/installation",
+    name: "Services",
+    href: "/services",
+  },
+  {
+    name: "Portfolio",
+    href: "/portfolio",
+  },
+  {
+    name: "Contact",
+    href: "/contact",
   },
 ];
 
@@ -40,15 +44,15 @@ function NavItem({ children, href }: NavItemProps) {
 
   return (
     <li>
-      <a href={href || "#"} className="login-button flex items-center gap-2">
+      <a href={href || "#"} className="nav-link-animated">
         <span className="span-mother">
           {text.map((char, i) => (
-            <span key={i}>{char}</span>
+            <span key={i}>{char === " " ? "\u00A0" : char}</span>
           ))}
         </span>
         <span className="span-mother2">
           {text.map((char, i) => (
-            <span key={i}>{char}</span>
+            <span key={i}>{char === " " ? "\u00A0" : char}</span>
           ))}
         </span>
       </a>
@@ -69,85 +73,128 @@ export function Navbar() {
   }, []);
 
   return (
-    <MTNavbar shadow={false} fullWidth className="border-0 sticky top-0 z-50">
+    <MTNavbar 
+      shadow={false} 
+      fullWidth 
+      className="border-0 sticky top-0 z-50"
+      placeholder={undefined}
+      onPointerEnterCapture={undefined}
+      onPointerLeaveCapture={undefined}
+    >
       <div className="container mx-auto flex items-center justify-between">
-        <Typography
-          as="a"
-          href="https://www.material-tailwind.com"
-          target="_blank"
-          color="blue-gray"
-          className="text-lg font-bold"
+        <a
+          href="/"
+          className="flex items-center"
+          aria-label="Home"
         >
-          Subhash Interior
-        </Typography>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="text-gray-900">
+            <path d="M8 32V8H24L32 16V32M24 8V16H32" stroke="currentColor" strokeWidth="1.5" fill="none" />
+          </svg>
+        </a>
         <ul className="ml-10 hidden items-center gap-8 lg:flex">
-          {NAV_MENU.map(({ name, icon: Icon, href }) => (
+          {NAV_MENU.map(({ name, href }) => (
             <NavItem key={name} href={href}>
               {name}
             </NavItem>
           ))}
         </ul>
 
-        {/* <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="text">Sign In</Button>
-          <a href="https://www.material-tailwind.com/blocks" target="_blank">
-            <Button color="gray">blocks</Button>
-          </a>
-        </div> */}
         <style jsx global>{`
-          .login-button {
-            font-weight: bold;
-            color: #232528ff;
+          /* Animated Navigation Links - Same as Footer */
+          .nav-link-animated {
+            font-weight: 600;
+            color: #232528;
             cursor: pointer;
             display: flex;
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
           }
 
-          .login-button .span-mother,
-          .login-button .span-mother2 {
+          .nav-link-animated .span-mother,
+          .nav-link-animated .span-mother2 {
             display: flex;
             overflow: hidden;
           }
 
-          .login-button .span-mother span {
+          .nav-link-animated .span-mother span {
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           }
 
-          .login-button .span-mother2 {
+          .nav-link-animated .span-mother2 {
             position: absolute;
+            color: #D2B48C;
           }
 
-          .login-button .span-mother2 span {
+          .nav-link-animated .span-mother2 span {
             transform: translateY(-1.2em);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           }
 
           /* Hover Effect */
-          .login-button:hover .span-mother span {
+          .nav-link-animated:hover .span-mother span {
             transform: translateY(1.2em);
           }
 
-          .login-button:hover .span-mother2 span {
+          .nav-link-animated:hover .span-mother2 span {
             transform: translateY(0);
           }
 
-          /* Delay each character - smoother progression */
-          .login-button span:nth-child(1) { transition-delay: 0s; }
-          .login-button span:nth-child(2) { transition-delay: 0.05s; }
-          .login-button span:nth-child(3) { transition-delay: 0.1s; }
-          .login-button span:nth-child(4) { transition-delay: 0.15s; }
-          .login-button span:nth-child(5) { transition-delay: 0.2s; }
-          .login-button span:nth-child(6) { transition-delay: 0.25s; }
-          .login-button span:nth-child(7) { transition-delay: 0.3s; }
-          .login-button span:nth-child(8) { transition-delay: 0.35s; }
-          `}</style>
+          /* Delay each character for smooth wave effect */
+          .nav-link-animated .span-mother span:nth-child(1),
+          .nav-link-animated .span-mother2 span:nth-child(1) {
+            transition-delay: 0s;
+          }
+          .nav-link-animated .span-mother span:nth-child(2),
+          .nav-link-animated .span-mother2 span:nth-child(2) {
+            transition-delay: 0.05s;
+          }
+          .nav-link-animated .span-mother span:nth-child(3),
+          .nav-link-animated .span-mother2 span:nth-child(3) {
+            transition-delay: 0.1s;
+          }
+          .nav-link-animated .span-mother span:nth-child(4),
+          .nav-link-animated .span-mother2 span:nth-child(4) {
+            transition-delay: 0.15s;
+          }
+          .nav-link-animated .span-mother span:nth-child(5),
+          .nav-link-animated .span-mother2 span:nth-child(5) {
+            transition-delay: 0.2s;
+          }
+          .nav-link-animated .span-mother span:nth-child(6),
+          .nav-link-animated .span-mother2 span:nth-child(6) {
+            transition-delay: 0.25s;
+          }
+          .nav-link-animated .span-mother span:nth-child(7),
+          .nav-link-animated .span-mother2 span:nth-child(7) {
+            transition-delay: 0.3s;
+          }
+          .nav-link-animated .span-mother span:nth-child(8),
+          .nav-link-animated .span-mother2 span:nth-child(8) {
+            transition-delay: 0.35s;
+          }
+          .nav-link-animated .span-mother span:nth-child(9),
+          .nav-link-animated .span-mother2 span:nth-child(9) {
+            transition-delay: 0.4s;
+          }
+          .nav-link-animated .span-mother span:nth-child(10),
+          .nav-link-animated .span-mother2 span:nth-child(10) {
+            transition-delay: 0.45s;
+          }
+        `}</style>
+        
         <IconButton
           variant="text"
           color="gray"
           onClick={handleOpen}
           className="ml-auto inline-block lg:hidden"
+          placeholder={undefined}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
         >
           {open ? (
             <XMarkIcon strokeWidth={2} className="h-6 w-6" />
@@ -159,19 +206,12 @@ export function Navbar() {
       <Collapse open={open}>
         <div className="container mx-auto mt-3 border-t border-gray-200 px-2 pt-4">
           <ul className="flex flex-col gap-4">
-            {NAV_MENU.map(({ name, icon: Icon }) => (
-              <NavItem key={name}>
-                <Icon className="h-5 w-5" />
+            {NAV_MENU.map(({ name, href }) => (
+              <NavItem key={name} href={href}>
                 {name}
               </NavItem>
             ))}
           </ul>
-          <div className="mt-6 mb-4 flex items-center gap-2">
-            <Button variant="text">Sign In</Button>
-            <a href="https://www.material-tailwind.com/blocks" target="_blank">
-              <Button color="gray">blocks</Button>
-            </a>
-          </div>
         </div>
       </Collapse>
     </MTNavbar>

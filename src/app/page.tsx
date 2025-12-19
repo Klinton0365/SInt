@@ -26,7 +26,7 @@ export default function Campaign() {
       <ClientCarousel />
       <AboutSection />
       <ResultsShowcase />
-      <CounterSection />
+      {/* <CounterSection /> */}
       <ServicesSection />
       <TestimonialSection />
       <ContactSection />
