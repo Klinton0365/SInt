@@ -1,25 +1,25 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
     id: 1,
-    text: "I hired Archipix to design and build my dream home, and I could be happier with the result. From the initial consultation to the final walk-through, the Archipix team was professional.",
+    text: "I hired Subhash Interior to design and build my dream home, and I could be happier with the result. From the initial consultation to the final walk-through, the Archipix team was professional.",
     author: "Lisa Ray",
     location: "New York, USA",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
   },
   {
     id: 2,
-    text: "I hired Archipix to design and build my dream home, and I could be happier with the result. From the initial consultation to the final walk-through, the Archipix team was professional.",
+    text: "I hired Subhash Interior to design and build my dream home, and I could be happier with the result. From the initial consultation to the final walk-through, the Archipix team was professional.",
     author: "Paul Scholes",
     location: "Manchester, UK",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop"
   },
   {
     id: 3,
-    text: "Working with Archipix was an absolute pleasure. Their attention to detail and commitment to excellence exceeded all my expectations. Highly recommended!",
+    text: "Working with Subhash Interior was an absolute pleasure. Their attention to detail and commitment to excellence exceeded all my expectations. Highly recommended!",
     author: "Sarah Johnson",
     location: "Los Angeles, USA",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop"
@@ -35,6 +35,17 @@ const milestones = [
 
 export default function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000); // 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -63,17 +74,17 @@ export default function TestimonialSection() {
                 What Our Clients
                 <br />
                 <span className="inline-flex items-center gap-2">
-                  <svg 
-                    className="w-12 h-12 text-gray-400" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-12 h-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 14l-7 7m0 0l-7-7m7 7V3"
                     />
                   </svg>
                   Are Saying
@@ -144,11 +155,10 @@ export default function TestimonialSection() {
                     <button
                       key={index}
                       onClick={() => setCurrentIndex(index)}
-                      className={`h-2 rounded-full transition-all ${
-                        index === currentIndex 
-                          ? 'w-8 bg-black' 
+                      className={`h-2 rounded-full transition-all ${index === currentIndex
+                          ? 'w-8 bg-black'
                           : 'w-2 bg-gray-300'
-                      }`}
+                        }`}
                       aria-label={`Go to testimonial ${index + 1}`}
                     />
                   ))}
@@ -191,7 +201,7 @@ export default function TestimonialSection() {
             ))}
           </div>
         </div>
-        
+
         <style>{`
           .timeline-section {
             padding: 120px 20px;

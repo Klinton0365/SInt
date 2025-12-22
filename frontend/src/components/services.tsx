@@ -53,18 +53,50 @@ const ServicesSection: React.FC = () => {
     },
   ];
 
-  const itemsPerView = 3;
+  // const itemsPerView = 3;
+  const [itemsPerView, setItemsPerView] = useState(3);
+
   const maxSlide = Math.max(0, services.length - itemsPerView);
 
-  useEffect(() => {
-    if (isHovering) return;
 
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
-    }, 3000);
+  // useEffect(() => {
+  //   if (isHovering) return;
 
-    return () => clearInterval(interval);
-  }, [isHovering, maxSlide]);
+  //   const interval = setInterval(() => {
+  //     setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
+  //   }, 3000);
+
+  //   return () => clearInterval(interval);
+  // }, [isHovering, maxSlide]);
+
+//   useEffect(() => {
+//   const updateItemsPerView = () => {
+//     if (window.innerWidth < 768) {
+//       setItemsPerView(1);
+//     } else if (window.innerWidth < 1024) {
+//       setItemsPerView(2);
+//     } else {
+//       setItemsPerView(3);
+//     }
+//   };
+
+//   updateItemsPerView();
+//   window.addEventListener('resize', updateItemsPerView);
+
+//   return () => window.removeEventListener('resize', updateItemsPerView);
+// }, []);
+
+useEffect(() => {
+  if (isHovering && window.innerWidth >= 1024) return;
+
+  const interval = setInterval(() => {
+    setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, [isHovering, maxSlide]);
+
+
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
@@ -102,10 +134,17 @@ const ServicesSection: React.FC = () => {
         {/* Services Slider */}
         <div className="services-slider-wrapper">
           <div className="services-slider" ref={sliderRef}>
+            {/* <div
+              className="slider-track"
+              style={{
+                transform: `translateX(-${currentSlide * (100)}%)`
+              }}
+            > */}
             <div
               className="slider-track"
               style={{
-                transform: `translateX(-${currentSlide * (100 / itemsPerView)}%)`
+                transform: `translateX(-${currentSlide * 100}%)`,
+                ['--items-per-view' as any]: itemsPerView
               }}
             >
               {services.map((service, index) => (
@@ -227,9 +266,9 @@ const ServicesSection: React.FC = () => {
 
         .sub-title {
           margin: 0;
-            font-size: 75px;
+             font-size: clamp(32px, 6vw, 75px);
+  line-height: 1.1;
     font-weight: 500;
-    line-height: 80px;
     letter-spacing: -1px;
           color: rgba(255, 255, 255, 0.8);
           letter-spacing: 2px;
@@ -271,13 +310,14 @@ const ServicesSection: React.FC = () => {
         }
 
         .slider-track {
-          display: flex;
+           display: flex;
+            width: 100%;
+            gap: 30px;
           transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          gap: 30px;
         }
 
         .service-item {
-          flex: 0 0 calc(33.333% - 20px);
+          flex: 0 0 calc(100% / var(--items-per-view));
           background: rgba(40, 40, 40, 0.9);
           padding: 40px 30px;
           border-radius: 8px;
