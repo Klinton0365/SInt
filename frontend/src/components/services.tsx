@@ -58,43 +58,15 @@ const ServicesSection: React.FC = () => {
 
   const maxSlide = Math.max(0, services.length - itemsPerView);
 
+  useEffect(() => {
+    if (isHovering && window.innerWidth >= 1024) return;
 
-  // useEffect(() => {
-  //   if (isHovering) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
+    }, 3000);
 
-  //   const interval = setInterval(() => {
-  //     setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
-  //   }, 3000);
-
-  //   return () => clearInterval(interval);
-  // }, [isHovering, maxSlide]);
-
-//   useEffect(() => {
-//   const updateItemsPerView = () => {
-//     if (window.innerWidth < 768) {
-//       setItemsPerView(1);
-//     } else if (window.innerWidth < 1024) {
-//       setItemsPerView(2);
-//     } else {
-//       setItemsPerView(3);
-//     }
-//   };
-
-//   updateItemsPerView();
-//   window.addEventListener('resize', updateItemsPerView);
-
-//   return () => window.removeEventListener('resize', updateItemsPerView);
-// }, []);
-
-useEffect(() => {
-  if (isHovering && window.innerWidth >= 1024) return;
-
-  const interval = setInterval(() => {
-    setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
-  }, 3000);
-
-  return () => clearInterval(interval);
-}, [isHovering, maxSlide]);
+    return () => clearInterval(interval);
+  }, [isHovering, maxSlide]);
 
 
 
@@ -187,32 +159,32 @@ useEffect(() => {
 
       <style jsx global>{`
         .services-section {
-  position: relative;
-  padding: 100px 0;
-  overflow: hidden;
-}
+          position: relative;
+          padding: 100px 0;
+          overflow: hidden;
+        }
 
-.fixed-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&q=80');
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
-}
+        .fixed-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&q=80');
+          background-size: cover;
+          background-position: center;
+          z-index: 0;
+        }
 
-.fixed-background::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-}
+        .fixed-background::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.7);
+        }
 
         .container {
           max-width: 1400px;
