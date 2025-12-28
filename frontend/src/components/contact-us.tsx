@@ -82,92 +82,133 @@ export default function ContactSection() {
 
       {/* Modal Overlay */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm">
-          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl transform transition-all animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-md">
+          <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl transform transition-all animate-fadeIn overflow-hidden">
+            {/* Decorative Side Panel */}
+            <div className="absolute left-0 top-0 bottom-0 w-2/5 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 hidden md:block">
+              <div className="absolute inset-0 opacity-20" style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}></div>
+              <div className="relative h-full flex flex-col justify-center p-10 text-gray-800">
+                <h4 className="text-3xl font-bold mb-4">Transform Your Space</h4>
+                <p className="text-lg mb-6 opacity-90">Let's bring your interior design vision to life with our expert team.</p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center">
+                      <svg className="w-5 h-5 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                      </svg>
+                    </div>
+                    <span className="font-medium">Expert Designers</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center">
+                      <svg className="w-5 h-5 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span className="font-medium">Quality Guarantee</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center">
+                      <svg className="w-5 h-5 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
+                      </svg>
+                    </div>
+                    <span className="font-medium">Timely Delivery</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Close Button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+              className="absolute top-6 right-6 p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all z-10"
             >
               <X size={24} />
             </button>
 
             {/* Modal Content */}
-            <div className="p-8">
+            <div className="md:ml-[40%] p-10">
               {!submitSuccess ? (
                 <>
-                  <h3 className="text-3xl font-semibold text-gray-900 mb-2">Get in Touch</h3>
-                  <p className="text-gray-600 mb-6">We'd love to hear about your project. Fill out the form below and we'll get back to you soon.</p>
+                  <div className="mb-8">
+                    <h3 className="text-4xl font-bold text-gray-900 mb-3">Start Your Journey</h3>
+                    <p className="text-gray-600 text-lg">Share your vision with us and let's create something extraordinary together.</p>
+                  </div>
 
                   <div className="space-y-5">
                     {/* Name Input */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
                         Your Name *
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-600" size={20} />
                         <input
                           type="text"
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
                           placeholder="John Doe"
-                          className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all hover:border-gray-300"
                         />
                       </div>
                     </div>
 
                     {/* Email Input */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
                         Email Address *
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-600" size={20} />
                         <input
                           type="email"
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
                           placeholder="john@example.com"
-                          className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all hover:border-gray-300"
                         />
                       </div>
                     </div>
 
                     {/* Phone Input */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
                         Phone Number
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-600" size={20} />
                         <input
                           type="tel"
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
                           placeholder="+1 (555) 000-0000"
-                          className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all hover:border-gray-300"
                         />
                       </div>
                     </div>
 
                     {/* Message Input */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
                         Your Message *
                       </label>
                       <div className="relative">
-                        <MessageSquare className="absolute left-3 top-3 text-gray-400" size={20} />
+                        <MessageSquare className="absolute left-4 top-4 text-amber-600" size={20} />
                         <textarea
                           name="message"
                           value={formData.message}
                           onChange={handleInputChange}
                           rows={4}
-                          placeholder="Tell us about your project..."
-                          className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                          placeholder="Tell us about your dream space..."
+                          className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none hover:border-gray-300"
                         />
                       </div>
                     </div>
@@ -176,7 +217,7 @@ export default function ContactSection() {
                     <button
                       onClick={handleSubmit}
                       disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
-                      className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-300 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full py-4 px-6 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-xl hover:from-amber-700 hover:to-orange-700 focus:ring-4 focus:ring-amber-300 transition-all transform hover:scale-[1.02] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
                       {isSubmitting ? (
                         <span className="flex items-center justify-center">
@@ -187,20 +228,20 @@ export default function ContactSection() {
                           Sending...
                         </span>
                       ) : (
-                        'Send Message'
+                        'Start Your Project'
                       )}
                     </button>
                   </div>
                 </>
               ) : (
-                <div className="text-center py-8">
-                  <div className="mb-4 inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
-                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <div className="text-center py-12">
+                  <div className="mb-6 inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full">
+                    <svg className="w-10 h-10 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-2">Message Sent!</h3>
-                  <p className="text-gray-600">Thank you for reaching out. We'll get back to you shortly.</p>
+                  <h3 className="text-3xl font-bold text-gray-900 mb-3">We've Received Your Message!</h3>
+                  <p className="text-gray-600 text-lg">Our design team will review your project and reach out within 24 hours.</p>
                 </div>
               )}
             </div>
