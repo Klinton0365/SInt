@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { X, Mail, User, Phone, MessageSquare } from 'lucide-react';
+import { contactService } from '@/services/contactService';
 
 export default function ContactSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -25,18 +26,26 @@ export default function ContactSection() {
     
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-    
-    // Reset form after 2 seconds
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setSubmitSuccess(false);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 2000);
+    try {
+      const response = await contactService.submitContact(formData);
+      
+      if (response.success) {
+        setSubmitSuccess(true);
+        
+        // Reset form after 2 seconds
+        setTimeout(() => {
+          setIsModalOpen(false);
+          setSubmitSuccess(false);
+          setFormData({ name: '', email: '', phone: '', message: '' });
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Failed to submit contact form:', error);
+      // Show error message to user
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const closeModal = () => {

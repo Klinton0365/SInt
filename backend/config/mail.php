@@ -49,6 +49,8 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
+        'admin_email' => env('MAIL_ADMIN_EMAIL', 'admin@example.com'),
+
         'ses' => [
             'transport' => 'ses',
         ],
