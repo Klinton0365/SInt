@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { Timeline } from '@/components/timelinee';
 
 const testimonials = [
   {
@@ -26,11 +27,82 @@ const testimonials = [
   }
 ];
 
-const milestones = [
-  { year: "2010", title: "Founded", description: "Started with a vision to transform spaces" },
-  { year: "2015", title: "100+ Projects", description: "Reached our first century of completed projects" },
-  { year: "2020", title: "Award Winning", description: "Recognized as India's top interior design firm" },
-  { year: "2025", title: "Global Expansion", description: "Opening studios across major cities worldwide" }
+const timelineData = [
+  {
+    title: "2010",
+    content: (
+      <div>
+        <h3 className="text-xl font-bold text-foreground mb-2">Founded</h3>
+        <p className="text-muted-foreground text-sm md:text-base mb-4">
+          Started with a vision to transform spaces and create beautiful interiors that inspire.
+        </p>
+        <div className="bg-secondary/50 rounded-lg p-4 border border-border">
+          <p className="text-sm text-muted-foreground">
+            Our journey began with a small team of passionate designers dedicated to excellence.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    title: "2015",
+    content: (
+      <div>
+        <h3 className="text-xl font-bold text-foreground mb-2">100+ Projects</h3>
+        <p className="text-muted-foreground text-sm md:text-base mb-4">
+          Reached our first century of completed projects, establishing ourselves as industry leaders.
+        </p>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-secondary/50 rounded-lg p-4 border border-border">
+            <p className="text-2xl font-bold text-timeline-accent">100+</p>
+            <p className="text-xs text-muted-foreground">Projects Completed</p>
+          </div>
+          <div className="bg-secondary/50 rounded-lg p-4 border border-border">
+            <p className="text-2xl font-bold text-timeline-accent">50+</p>
+            <p className="text-xs text-muted-foreground">Happy Clients</p>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    title: "2020",
+    content: (
+      <div>
+        <h3 className="text-xl font-bold text-foreground mb-2">Award Winning</h3>
+        <p className="text-muted-foreground text-sm md:text-base mb-4">
+          Recognized as India's top interior design firm with multiple prestigious awards.
+        </p>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="text-timeline-accent">✓</span> Best Interior Design Firm 2020
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="text-timeline-accent">✓</span> Excellence in Residential Design
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="text-timeline-accent">✓</span> Innovation Award
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    title: "2025",
+    content: (
+      <div>
+        <h3 className="text-xl font-bold text-foreground mb-2">Global Expansion</h3>
+        <p className="text-muted-foreground text-sm md:text-base mb-4">
+          Opening studios across major cities worldwide, bringing our design expertise globally.
+        </p>
+        <div className="bg-gradient-to-r from-timeline-accent/10 to-timeline-accent-secondary/10 rounded-lg p-4 border border-timeline-accent/20">
+          <p className="text-sm text-foreground font-medium">
+            Now serving clients in New York, London, Dubai, and Singapore.
+          </p>
+        </div>
+      </div>
+    ),
+  },
 ];
 
 export default function TestimonialSection() {
@@ -41,11 +113,10 @@ export default function TestimonialSection() {
       setCurrentIndex((prevIndex) =>
         prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000); // 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
-
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -59,23 +130,17 @@ export default function TestimonialSection() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 py-16 px-4">
+      <div className="min-h-screen bg-white py-16 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Section Title */}
           <div className="flex justify-end mb-8">
-            <div className="text-right section-title">
-              <h2 style={{
-                fontSize: '75px',
-                fontWeight: 500,
-                lineHeight: '80px',
-                letterSpacing: '-1px',
-                color: '#171717'
-              }}>
+            <div className="text-right">
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-medium leading-tight tracking-tight text-foreground">
                 What Our Clients
                 <br />
                 <span className="inline-flex items-center gap-2">
                   <svg
-                    className="w-12 h-12 text-gray-400"
+                    className="w-10 h-10 md:w-12 md:h-12 text-muted-foreground"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -93,23 +158,23 @@ export default function TestimonialSection() {
             </div>
           </div>
 
-          <hr className="border-gray-300 mb-12" />
+          <hr className="border-border mb-12" />
 
           {/* Testimonial Content */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left Side - Testimonial Card */}
             <div className="lg:col-span-7">
-              <div className="relative bg-white p-8 md:p-12 rounded-lg shadow-sm">
+              <div className="relative bg-card p-8 md:p-12 rounded-lg shadow-sm border border-border">
                 {/* Quote Icon */}
                 <div className="mb-6">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                    <Quote className="w-8 h-8 text-gray-400" />
+                  <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center">
+                    <Quote className="w-8 h-8 text-muted-foreground" />
                   </div>
                 </div>
 
                 {/* Testimonial Text */}
                 <div className="mb-8">
-                  <p className="text-gray-600 text-lg leading-relaxed">
+                  <p className="text-muted-foreground text-lg leading-relaxed">
                     {currentTestimonial.text}
                   </p>
                 </div>
@@ -122,10 +187,10 @@ export default function TestimonialSection() {
                     className="w-16 h-16 rounded-full object-cover"
                   />
                   <div>
-                    <h6 className="text-black font-semibold text-lg">
+                    <h6 className="text-foreground font-semibold text-lg">
                       {currentTestimonial.author}
                     </h6>
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-muted-foreground text-sm">
                       {currentTestimonial.location}
                     </span>
                   </div>
@@ -135,17 +200,17 @@ export default function TestimonialSection() {
                 <div className="flex gap-3">
                   <button
                     onClick={handlePrev}
-                    className="w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                    className="w-12 h-12 bg-secondary hover:bg-secondary/80 rounded-full flex items-center justify-center transition-colors"
                     aria-label="Previous testimonial"
                   >
-                    <ChevronLeft className="w-5 h-5 text-gray-700" />
+                    <ChevronLeft className="w-5 h-5 text-foreground" />
                   </button>
                   <button
                     onClick={handleNext}
-                    className="w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                    className="w-12 h-12 bg-secondary hover:bg-secondary/80 rounded-full flex items-center justify-center transition-colors"
                     aria-label="Next testimonial"
                   >
-                    <ChevronRight className="w-5 h-5 text-gray-700" />
+                    <ChevronRight className="w-5 h-5 text-foreground" />
                   </button>
                 </div>
 
@@ -155,10 +220,11 @@ export default function TestimonialSection() {
                     <button
                       key={index}
                       onClick={() => setCurrentIndex(index)}
-                      className={`h-2 rounded-full transition-all ${index === currentIndex
-                          ? 'w-8 bg-black'
-                          : 'w-2 bg-gray-300'
-                        }`}
+                      className={`h-2 rounded-full transition-all ${
+                        index === currentIndex
+                          ? 'w-8 bg-foreground'
+                          : 'w-2 bg-muted-foreground/30'
+                      }`}
                       aria-label={`Go to testimonial ${index + 1}`}
                     />
                   ))}
@@ -168,7 +234,7 @@ export default function TestimonialSection() {
 
             {/* Right Side - Image */}
             <div className="lg:col-span-5">
-              <div className="h-full min-h-[400px] bg-gray-200 rounded-lg overflow-hidden">
+              <div className="h-full min-h-[400px] bg-muted rounded-lg overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=800&fit=crop"
                   alt="Architectural floor plan"
@@ -180,169 +246,10 @@ export default function TestimonialSection() {
         </div>
       </div>
 
-      {/* Timeline Section */}
-      <section className="timeline-section">
-        <div className="timeline-container">
-          <div className="section-label text-sm uppercase tracking-wider text-gray-500 mb-4">Our Milestones</div>
-          <h2 className="timeline-title">The Journey So Far</h2>
-
-          <div className="timeline">
-            {milestones.map((milestone, index) => (
-              <div key={index} className="timeline-item">
-                <div className="timeline-marker">
-                  <div className="timeline-dot"></div>
-                </div>
-                <div className="timeline-content">
-                  <div className="timeline-year">{milestone.year}</div>
-                  <h3 className="timeline-event-title">{milestone.title}</h3>
-                  <p className="timeline-description">{milestone.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <style>{`
-          .timeline-section {
-            padding: 120px 20px;
-            background: white;
-          }
-
-          .timeline-container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-          }
-
-          .timeline-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            color: #1a1a1a;
-            margin: 0 0 80px 0;
-          }
-
-          .timeline {
-            position: relative;
-            padding: 40px 0;
-          }
-
-          .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, rgba(210, 180, 140, 0.2), rgba(210, 180, 140, 0.8), rgba(210, 180, 140, 0.2));
-          }
-
-          .timeline-item {
-            position: relative;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 40px;
-            margin-bottom: 80px;
-            align-items: center;
-          }
-
-          .timeline-item:nth-child(even) .timeline-content {
-            grid-column: 1;
-            text-align: right;
-          }
-
-          .timeline-item:nth-child(odd) .timeline-content {
-            grid-column: 3;
-            text-align: left;
-          }
-
-          .timeline-marker {
-            grid-column: 2;
-            position: relative;
-            z-index: 2;
-          }
-
-          .timeline-dot {
-            width: 20px;
-            height: 20px;
-            background: rgba(210, 180, 140, 0.9);
-            border: 4px solid white;
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px rgba(210, 180, 140, 0.2);
-            transition: all 0.3s ease;
-          }
-
-          .timeline-item:hover .timeline-dot {
-            transform: scale(1.3);
-            box-shadow: 0 0 0 8px rgba(210, 180, 140, 0.3);
-          }
-
-          .timeline-content {
-            padding: 30px;
-            background: #f9f9f9;
-            border-left: 3px solid rgba(210, 180, 140, 0.6);
-            transition: all 0.3s ease;
-          }
-
-          .timeline-item:hover .timeline-content {
-            background: rgba(210, 180, 140, 0.05);
-            transform: translateY(-5px);
-          }
-
-          .timeline-year {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: rgba(210, 180, 140, 0.9);
-            margin-bottom: 10px;
-          }
-
-          .timeline-event-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin: 0 0 10px 0;
-          }
-
-          .timeline-description {
-            font-size: 1rem;
-            color: #666;
-            margin: 0;
-            line-height: 1.6;
-          }
-
-          @media (max-width: 768px) {
-            .timeline::before {
-              left: 20px;
-            }
-
-            .timeline-item {
-              grid-template-columns: auto 1fr;
-              gap: 20px;
-            }
-
-            .timeline-marker {
-              grid-column: 1;
-            }
-
-            .timeline-item:nth-child(even) .timeline-content,
-            .timeline-item:nth-child(odd) .timeline-content {
-              grid-column: 2;
-              text-align: left;
-            }
-
-            .timeline-content {
-              padding: 20px;
-            }
-
-            .timeline-year {
-              font-size: 2rem;
-            }
-
-            .timeline-section {
-              padding: 80px 20px;
-            }
-          }
-        `}</style>
-      </section>
+      {/* Animated Timeline Section */}
+      <div className="relative w-full overflow-clip">
+        <Timeline data={timelineData} />
+      </div>
     </>
   );
 }
