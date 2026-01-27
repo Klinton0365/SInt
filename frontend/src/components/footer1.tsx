@@ -2,6 +2,9 @@
 import React from 'react';
 import { Instagram, Twitter, Facebook } from 'lucide-react';
 
+const message = encodeURIComponent(
+  "Hello,\n\nI visited your website and would like to enquire about your services.\nPlease share more details and let me know a convenient time to connect.\n\nThank you."
+);
 interface NavItemProps {
   children: React.ReactNode;
   href?: string;
@@ -92,17 +95,26 @@ const Footer: React.FC = () => {
             <NavItem href="/contact">Contact</NavItem>
           </div>
           {/* <p className="footer-copyright">Copyright 2026 by DuruThemes</p> */}
-          <p className="footer-copyright">
+          {/* <p className="footer-copyright">
             © 2026. Designed &amp; Developed by{" "}
             <a
-              href="https://thewebwave.in"
+              href=""
               target="_blank"
               rel="noopener noreferrer"
               className="footer-link"
             >
-              The Web Wave
+              KLINTON 
             </a>
-          </p>
+          </p> */}
+
+          <a
+            href={`https://wa.me/91XXXXXXXXXX?text=${message}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            KLINTON
+          </a>
+
 
         </div>
       </div>
