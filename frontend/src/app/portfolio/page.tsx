@@ -6,8 +6,10 @@ import {
     ArrowRight, Eye, Heart, Share2, Filter, Grid3x3,
     LayoutGrid, Search, MapPin, Calendar, Award,
     ChevronLeft, ChevronRight, X, ZoomIn, ExternalLink,
-    Star, TrendingUp, Clock, Users, Sparkles, Play
+    Star, TrendingUp, Clock, Users, Sparkles, Play,
+    Mail, User, Phone, MessageSquare
 } from 'lucide-react';
+import { contactService } from '@/services/contactService';
 
 // Dynamic imports with no SSR
 const Navbar = dynamic(() => import("@/components").then(mod => ({ default: mod.Navbar })), { ssr: false });
@@ -43,6 +45,50 @@ export default function PortfolioPage() {
     const [showFilters, setShowFilters] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [animateStats, setAnimateStats] = useState(false);
+
+    // Contact Modal States
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    // Form handlers
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async () => {
+        if (!formData.name || !formData.email || !formData.message) return;
+
+        setIsSubmitting(true);
+        try {
+            const response = await contactService.submitContact(formData);
+            if (response.success) {
+                setSubmitSuccess(true);
+                setTimeout(() => {
+                    setIsModalOpen(false);
+                    setSubmitSuccess(false);
+                    setFormData({ name: '', email: '', phone: '', message: '' });
+                }, 2000);
+            }
+        } catch (error) {
+            console.error('Failed to submit:', error);
+            alert('Failed to send message. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSubmitSuccess(false);
+    };
 
     useEffect(() => {
         setTimeout(() => setIsVisible(true), 300);
@@ -492,423 +538,424 @@ export default function PortfolioPage() {
         <>
             <Navbar />
             <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50">
-            {/* Hero Section */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-slate-900"></div>
+                {/* Hero Section */}
+                <section className="relative h-screen flex items-center justify-center overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-slate-900"></div>
 
-                {/* Animated Background */}
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-                    <div className="absolute top-40 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-                    <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-                </div>
-
-                <div className={`relative z-10 text-center text-white px-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <div className="inline-flex items-center gap-3 mb-6 px-8 py-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 shadow-2xl">
-                        <Sparkles size={20} className="text-yellow-400 animate-pulse" />
-                        <span className="text-lg font-bold"><StatCounter end={500} duration={2000} suffix="+" /> Completed Projects</span>
+                    {/* Animated Background */}
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+                        <div className="absolute top-40 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+                        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
                     </div>
 
-                    <h1 className="text-7xl md:text-8xl lg:text-9xl font-black mb-8 leading-tight">
-                        Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-gradient">Portfolio</span>
-                    </h1>
-
-                    <p className="text-2xl md:text-3xl mb-12 text-purple-200 max-w-4xl mx-auto font-light">
-                        Discover extraordinary spaces where imagination meets innovation
-                    </p>
-
-                    <div className="flex flex-wrap gap-6 justify-center items-center mb-12">
-                        <div className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-md rounded-2xl border border-yellow-400/30 shadow-xl hover:scale-105 transition-transform">
-                            <Award size={24} className="text-yellow-400" />
-                            <div className="text-left">
-                                <div className="text-sm text-yellow-200">Design Awards</div>
-                                <div className="text-2xl font-bold"><StatCounter end={15} duration={2000} suffix="+" /></div>
-                            </div>
+                    <div className={`relative z-10 text-center text-white px-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="inline-flex items-center gap-3 mb-6 px-8 py-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 shadow-2xl">
+                            <Sparkles size={20} className="text-yellow-400 animate-pulse" />
+                            <span className="text-lg font-bold"><StatCounter end={500} duration={2000} suffix="+" /> Completed Projects</span>
                         </div>
-                        <div className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl border border-blue-400/30 shadow-xl hover:scale-105 transition-transform">
-                            <Eye size={24} className="text-blue-400" />
-                            <div className="text-left">
-                                <div className="text-sm text-blue-200">Total Views</div>
-                                <div className="text-2xl font-bold"><StatCounter end={1} duration={2000} />M+</div>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-500/20 to-pink-500/20 backdrop-blur-md rounded-2xl border border-red-400/30 shadow-xl hover:scale-105 transition-transform">
-                            <Heart size={24} className="text-red-400" />
-                            <div className="text-left">
-                                <div className="text-sm text-red-200">Total Likes</div>
-                                <div className="text-2xl font-bold"><StatCounter end={50} duration={2000} />K+</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <button className="group px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all hover:scale-105 flex items-center gap-3 mx-auto">
-                        Explore Projects
-                        <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
-                    </button>
-                </div>
+                        <h1 className="text-7xl md:text-8xl lg:text-9xl font-black mb-8 leading-tight">
+                            Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-gradient">Portfolio</span>
+                        </h1>
 
-                {/* Scroll Indicator */}
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-                    <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-2">
-                        <div className="w-1 h-3 bg-white/50 rounded-full animate-pulse"></div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Search and Filter Section */}
-            <section className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-lg">
-                <div className="max-w-7xl mx-auto px-4 py-6">
-                    {/* Search Bar */}
-                    <div className="flex flex-col lg:flex-row gap-4 mb-6">
-                        <div className="flex-1 relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                            <input
-                                type="text"
-                                placeholder="Search projects by name, location, or tags..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 focus:bg-white transition-all outline-none text-lg"
-                            />
-                        </div>
-                        <div className="flex gap-2">
-                            <select
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value)}
-                                className="px-6 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 outline-none font-semibold cursor-pointer hover:bg-gray-100 transition-all"
-                            >
-                                <option value="featured">Featured First</option>
-                                <option value="likes">Most Liked</option>
-                                <option value="views">Most Viewed</option>
-                                <option value="recent">Most Recent</option>
-                            </select>
-                            <button
-                                onClick={() => setShowFilters(!showFilters)}
-                                className="px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl font-semibold hover:shadow-lg transition-all flex items-center gap-2"
-                            >
-                                <Filter size={20} />
-                                Filters
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Categories */}
-                    <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                        {categories.map((category) => (
-                            <button
-                                key={category.id}
-                                onClick={() => setSelectedCategory(category.id)}
-                                className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-bold whitespace-nowrap transition-all ${selectedCategory === category.id
-                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-xl scale-105'
-                                    : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg'
-                                }`}
-                            >
-                                <category.icon size={20} />
-                                {category.name}
-                                <span className={`px-2 py-1 rounded-full text-xs ${selectedCategory === category.id ? 'bg-white/20' : 'bg-purple-100 text-purple-800'
-                                    }`}>
-                                    {category.count}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* View Mode Toggle */}
-                    <div className="flex items-center justify-between mt-4">
-                        <p className="text-gray-600">
-                            Showing <span className="font-bold text-purple-600 text-xl">{filteredProjects.length}</span> projects
-                            {selectedCategory !== 'all' && (
-                                <span> in <span className="font-bold text-purple-600">
-                                    {categories.find(c => c.id === selectedCategory)?.name}
-                                </span></span>
-                            )}
+                        <p className="text-2xl md:text-3xl mb-12 text-purple-200 max-w-4xl mx-auto font-light">
+                            Discover extraordinary spaces where imagination meets innovation
                         </p>
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={() => setViewMode('grid')}
-                                className={`p-3 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                            >
-                                <Grid3x3 size={22} />
-                            </button>
-                            <button
-                                onClick={() => setViewMode('masonry')}
-                                className={`p-3 rounded-xl transition-all ${viewMode === 'masonry' ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                            >
-                                <LayoutGrid size={22} />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            {/* Portfolio Grid */}
-            <section className="py-20 px-4">
-                <div className="max-w-7xl mx-auto">
-                    {viewMode === 'grid' ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredProjects.map((project, index) => (
-                                <div
-                                    key={project.id}
-                                    className="group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3"
-                                    style={{ animationDelay: `${index * 100}ms` }}
-                                >
-                                    <div className="relative h-80 overflow-hidden">
-                                        <img
-                                            src={project.images[0]}
-                                            alt={project.title}
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
-
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                                <div className="flex gap-2 mb-3 flex-wrap">
-                                                    {project.tags.slice(0, 3).map((tag, idx) => (
-                                                        <span key={idx} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-full text-xs font-bold">
-                                                            {tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                                <div className="flex items-center gap-4 text-white/90 text-sm">
-                                                    <div className="flex items-center gap-1">
-                                                        <MapPin size={14} />
-                                                        {project.location}
-                                                    </div>
-                                                    <div className="flex items-center gap-1">
-                                                        <Calendar size={14} />
-                                                        {project.year}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Badges */}
-                                        <div className="absolute top-4 left-4 flex gap-2">
-                                            {project.featured && (
-                                                <div className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 rounded-full text-xs font-black flex items-center gap-1 shadow-lg animate-pulse">
-                                                    <Award size={14} />
-                                                    Featured
-                                                </div>
-                                            )}
-                                            {project.trending && (
-                                                <div className="px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
-                                                    <TrendingUp size={14} />
-                                                    Trending
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Action Buttons */}
-                                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <button
-                                                onClick={() => toggleLike(project.id)}
-                                                className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all hover:scale-110 shadow-lg"
-                                            >
-                                                <Heart
-                                                    size={20}
-                                                    className={likedProjects.includes(project.id) ? "fill-red-500 text-red-500" : "text-gray-700"}
-                                                />
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedProject(project);
-                                                    setCurrentImageIndex(0);
-                                                }}
-                                                className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all hover:scale-110 shadow-lg"
-                                            >
-                                                <ZoomIn size={20} className="text-gray-700" />
-                                            </button>
-                                        </div>
-
-                                        {/* Image Count Indicator */}
-                                        {project.images.length > 1 && (
-                                            <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-sm text-white rounded-full text-xs font-bold flex items-center gap-1">
-                                                <Play size={12} />
-                                                {project.images.length} photos
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div className="p-6">
-                                        <h3 className="text-2xl font-bold mb-2 text-gray-900 group-hover:text-purple-600 transition-colors">
-                                            {project.title}
-                                        </h3>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">{project.description}</p>
-
-                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                            <div className="flex items-center gap-4 text-sm">
-                                                <div className="flex items-center gap-1 text-gray-500">
-                                                    <Eye size={16} />
-                                                    <span className="font-semibold">{project.views}</span>
-                                                </div>
-                                                <div className="flex items-center gap-1 text-gray-500">
-                                                    <Heart size={16} className={likedProjects.includes(project.id) ? "fill-red-500 text-red-500" : ""} />
-                                                    <span className="font-semibold">{project.likes + (likedProjects.includes(project.id) ? 1 : 0)}</span>
-                                                </div>
-                                            </div>
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedProject(project);
-                                                    setCurrentImageIndex(0);
-                                                }}
-                                                className="text-purple-600 font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all group/btn"
-                                            >
-                                                View Details
-                                                <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-                                            </button>
-                                        </div>
-                                    </div>
+                        <div className="flex flex-wrap gap-6 justify-center items-center mb-12">
+                            <div className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-md rounded-2xl border border-yellow-400/30 shadow-xl hover:scale-105 transition-transform">
+                                <Award size={24} className="text-yellow-400" />
+                                <div className="text-left">
+                                    <div className="text-sm text-yellow-200">Design Awards</div>
+                                    <div className="text-2xl font-bold"><StatCounter end={15} duration={2000} suffix="+" /></div>
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
-                            {filteredProjects.map((project) => (
-                                <div
-                                    key={project.id}
-                                    className="break-inside-avoid group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500"
-                                >
-                                    <div className="relative overflow-hidden">
-                                        <img
-                                            src={project.images[0]}
-                                            alt={project.title}
-                                            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
-
-                                        {/* Badges */}
-                                        <div className="absolute top-4 left-4 flex gap-2">
-                                            {project.featured && (
-                                                <div className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
-                                                    <Award size={14} />
-                                                    Featured
-                                                </div>
-                                            )}
-                                            {project.trending && (
-                                                <div className="px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
-                                                    <TrendingUp size={14} />
-                                                    Trending
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Action Buttons */}
-                                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <button
-                                                onClick={() => toggleLike(project.id)}
-                                                className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all shadow-lg"
-                                            >
-                                                <Heart
-                                                    size={20}
-                                                    className={likedProjects.includes(project.id) ? "fill-red-500 text-red-500" : "text-gray-700"}
-                                                />
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedProject(project);
-                                                    setCurrentImageIndex(0);
-                                                }}
-                                                className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all shadow-lg"
-                                            >
-                                                <ZoomIn size={20} className="text-gray-700" />
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div className="p-6">
-                                        <h3 className="text-2xl font-bold mb-2 text-gray-900">{project.title}</h3>
-                                        <p className="text-gray-600 text-sm mb-4">{project.description}</p>
-
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {project.tags.map((tag, idx) => (
-                                                <span key={idx} className="px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-800 rounded-full text-xs font-bold">
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                            <div className="flex items-center gap-4 text-sm">
-                                                <div className="flex items-center gap-1 text-gray-500">
-                                                    <Eye size={16} />
-                                                    {project.views}
-                                                </div>
-                                                <div className="flex items-center gap-1 text-gray-500">
-                                                    <Heart size={16} />
-                                                    {project.likes}
-                                                </div>
-                                            </div>
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedProject(project);
-                                                    setCurrentImageIndex(0);
-                                                }}
-                                                className="text-purple-600 font-bold text-sm flex items-center gap-1"
-                                            >
-                                                Details <ArrowRight size={16} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {filteredProjects.length === 0 && (
-                        <div className="text-center py-20">
-                            <div className="w-24 h-24 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Search size={48} className="text-purple-600" />
                             </div>
-                            <h3 className="text-3xl font-bold text-gray-900 mb-3">No projects found</h3>
-                            <p className="text-gray-600 mb-6">Try adjusting your search or filters</p>
-                            <button
-                                onClick={() => {
-                                    setSearchQuery('');
-                                    setSelectedCategory('all');
-                                }}
-                                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold hover:shadow-lg transition-all"
-                            >
-                                Clear Filters
-                            </button>
+                            <div className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl border border-blue-400/30 shadow-xl hover:scale-105 transition-transform">
+                                <Eye size={24} className="text-blue-400" />
+                                <div className="text-left">
+                                    <div className="text-sm text-blue-200">Total Views</div>
+                                    <div className="text-2xl font-bold"><StatCounter end={1} duration={2000} />M+</div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-500/20 to-pink-500/20 backdrop-blur-md rounded-2xl border border-red-400/30 shadow-xl hover:scale-105 transition-transform">
+                                <Heart size={24} className="text-red-400" />
+                                <div className="text-left">
+                                    <div className="text-sm text-red-200">Total Likes</div>
+                                    <div className="text-2xl font-bold"><StatCounter end={50} duration={2000} />K+</div>
+                                </div>
+                            </div>
                         </div>
-                    )}
-                </div>
-            </section>
 
-            {/* CTA Section */}
-            <section className="py-24 px-4 bg-gradient-to-br from-purple-900 via-blue-900 to-slate-900 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-                    <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-                </div>
-
-                <div className="max-w-4xl mx-auto text-center relative z-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
-                        <Award size={40} className="text-white" />
-                    </div>
-                    <h2 className="text-5xl md:text-6xl font-black mb-6 text-white">
-                        Ready to Create Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">Dream Space?</span>
-                    </h2>
-                    <p className="text-xl text-purple-200 mb-10 max-w-2xl mx-auto">
-                        Let's transform your vision into reality. Our award-winning team is ready to bring your project to life.
-                    </p>
-                    <div className="flex flex-wrap gap-4 justify-center">
-                        <button className="px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all hover:scale-105 flex items-center gap-3">
-                            Start Your Project
-                            <ArrowRight size={24} />
-                        </button>
-                        <button className="px-10 py-5 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white/30 hover:bg-white/20 transition-all hover:scale-105">
-                            Schedule Consultation
+                        <button className="group px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all hover:scale-105 flex items-center gap-3 mx-auto">
+                            Explore Projects
+                            <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
                         </button>
                     </div>
-                </div>
-            </section>
 
-            {/* Modal */}
-            {selectedProject && (
-                <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-            )}
+                    {/* Scroll Indicator */}
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+                        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-2">
+                            <div className="w-1 h-3 bg-white/50 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                </section>
 
-            <style jsx>{`
+                {/* Search and Filter Section */}
+                <section className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-lg">
+                    <div className="max-w-7xl mx-auto px-4 py-6">
+                        {/* Search Bar */}
+                        <div className="flex flex-col lg:flex-row gap-4 mb-6">
+                            <div className="flex-1 relative">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                                <input
+                                    type="text"
+                                    placeholder="Search projects by name, location, or tags..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 focus:bg-white transition-all outline-none text-lg"
+                                />
+                            </div>
+                            <div className="flex gap-2">
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                    className="px-6 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 outline-none font-semibold cursor-pointer hover:bg-gray-100 transition-all"
+                                >
+                                    <option value="featured">Featured First</option>
+                                    <option value="likes">Most Liked</option>
+                                    <option value="views">Most Viewed</option>
+                                    <option value="recent">Most Recent</option>
+                                </select>
+                                <button
+                                    onClick={() => setShowFilters(!showFilters)}
+                                    className="px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl font-semibold hover:shadow-lg transition-all flex items-center gap-2"
+                                >
+                                    <Filter size={20} />
+                                    Filters
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Categories */}
+                        <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                            {categories.map((category) => (
+                                <button
+                                    key={category.id}
+                                    onClick={() => setSelectedCategory(category.id)}
+                                    className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-bold whitespace-nowrap transition-all ${selectedCategory === category.id
+                                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-xl scale-105'
+                                        : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg'
+                                        }`}
+                                >
+                                    <category.icon size={20} />
+                                    {category.name}
+                                    <span className={`px-2 py-1 rounded-full text-xs ${selectedCategory === category.id ? 'bg-white/20' : 'bg-purple-100 text-purple-800'
+                                        }`}>
+                                        {category.count}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* View Mode Toggle */}
+                        <div className="flex items-center justify-between mt-4">
+                            <p className="text-gray-600">
+                                Showing <span className="font-bold text-purple-600 text-xl">{filteredProjects.length}</span> projects
+                                {selectedCategory !== 'all' && (
+                                    <span> in <span className="font-bold text-purple-600">
+                                        {categories.find(c => c.id === selectedCategory)?.name}
+                                    </span></span>
+                                )}
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setViewMode('grid')}
+                                    className={`p-3 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                >
+                                    <Grid3x3 size={22} />
+                                </button>
+                                <button
+                                    onClick={() => setViewMode('masonry')}
+                                    className={`p-3 rounded-xl transition-all ${viewMode === 'masonry' ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                >
+                                    <LayoutGrid size={22} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Portfolio Grid */}
+                <section className="py-20 px-4">
+                    <div className="max-w-7xl mx-auto">
+                        {viewMode === 'grid' ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {filteredProjects.map((project, index) => (
+                                    <div
+                                        key={project.id}
+                                        className="group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3"
+                                        style={{ animationDelay: `${index * 100}ms` }}
+                                    >
+                                        <div className="relative h-80 overflow-hidden">
+                                            <img
+                                                src={project.images[0]}
+                                                alt={project.title}
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                                    <div className="flex gap-2 mb-3 flex-wrap">
+                                                        {project.tags.slice(0, 3).map((tag, idx) => (
+                                                            <span key={idx} className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-full text-xs font-bold">
+                                                                {tag}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                    <div className="flex items-center gap-4 text-white/90 text-sm">
+                                                        <div className="flex items-center gap-1">
+                                                            <MapPin size={14} />
+                                                            {project.location}
+                                                        </div>
+                                                        <div className="flex items-center gap-1">
+                                                            <Calendar size={14} />
+                                                            {project.year}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Badges */}
+                                            <div className="absolute top-4 left-4 flex gap-2">
+                                                {project.featured && (
+                                                    <div className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 rounded-full text-xs font-black flex items-center gap-1 shadow-lg animate-pulse">
+                                                        <Award size={14} />
+                                                        Featured
+                                                    </div>
+                                                )}
+                                                {project.trending && (
+                                                    <div className="px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
+                                                        <TrendingUp size={14} />
+                                                        Trending
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {/* Action Buttons */}
+                                            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <button
+                                                    onClick={() => toggleLike(project.id)}
+                                                    className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all hover:scale-110 shadow-lg"
+                                                >
+                                                    <Heart
+                                                        size={20}
+                                                        className={likedProjects.includes(project.id) ? "fill-red-500 text-red-500" : "text-gray-700"}
+                                                    />
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedProject(project);
+                                                        setCurrentImageIndex(0);
+                                                    }}
+                                                    className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all hover:scale-110 shadow-lg"
+                                                >
+                                                    <ZoomIn size={20} className="text-gray-700" />
+                                                </button>
+                                            </div>
+
+                                            {/* Image Count Indicator */}
+                                            {project.images.length > 1 && (
+                                                <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-sm text-white rounded-full text-xs font-bold flex items-center gap-1">
+                                                    <Play size={12} />
+                                                    {project.images.length} photos
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="p-6">
+                                            <h3 className="text-2xl font-bold mb-2 text-gray-900 group-hover:text-purple-600 transition-colors">
+                                                {project.title}
+                                            </h3>
+                                            <p className="text-gray-600 text-sm mb-4 line-clamp-2">{project.description}</p>
+
+                                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                <div className="flex items-center gap-4 text-sm">
+                                                    <div className="flex items-center gap-1 text-gray-500">
+                                                        <Eye size={16} />
+                                                        <span className="font-semibold">{project.views}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1 text-gray-500">
+                                                        <Heart size={16} className={likedProjects.includes(project.id) ? "fill-red-500 text-red-500" : ""} />
+                                                        <span className="font-semibold">{project.likes + (likedProjects.includes(project.id) ? 1 : 0)}</span>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedProject(project);
+                                                        setCurrentImageIndex(0);
+                                                    }}
+                                                    className="text-purple-600 font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all group/btn"
+                                                >
+                                                    View Details
+                                                    <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+                                {filteredProjects.map((project) => (
+                                    <div
+                                        key={project.id}
+                                        className="break-inside-avoid group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500"
+                                    >
+                                        <div className="relative overflow-hidden">
+                                            <img
+                                                src={project.images[0]}
+                                                alt={project.title}
+                                                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+
+                                            {/* Badges */}
+                                            <div className="absolute top-4 left-4 flex gap-2">
+                                                {project.featured && (
+                                                    <div className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
+                                                        <Award size={14} />
+                                                        Featured
+                                                    </div>
+                                                )}
+                                                {project.trending && (
+                                                    <div className="px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-xs font-black flex items-center gap-1 shadow-lg">
+                                                        <TrendingUp size={14} />
+                                                        Trending
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {/* Action Buttons */}
+                                            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <button
+                                                    onClick={() => toggleLike(project.id)}
+                                                    className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all shadow-lg"
+                                                >
+                                                    <Heart
+                                                        size={20}
+                                                        className={likedProjects.includes(project.id) ? "fill-red-500 text-red-500" : "text-gray-700"}
+                                                    />
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedProject(project);
+                                                        setCurrentImageIndex(0);
+                                                    }}
+                                                    className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all shadow-lg"
+                                                >
+                                                    <ZoomIn size={20} className="text-gray-700" />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-6">
+                                            <h3 className="text-2xl font-bold mb-2 text-gray-900">{project.title}</h3>
+                                            <p className="text-gray-600 text-sm mb-4">{project.description}</p>
+
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {project.tags.map((tag, idx) => (
+                                                    <span key={idx} className="px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-800 rounded-full text-xs font-bold">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                <div className="flex items-center gap-4 text-sm">
+                                                    <div className="flex items-center gap-1 text-gray-500">
+                                                        <Eye size={16} />
+                                                        {project.views}
+                                                    </div>
+                                                    <div className="flex items-center gap-1 text-gray-500">
+                                                        <Heart size={16} />
+                                                        {project.likes}
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedProject(project);
+                                                        setCurrentImageIndex(0);
+                                                    }}
+                                                    className="text-purple-600 font-bold text-sm flex items-center gap-1"
+                                                >
+                                                    Details <ArrowRight size={16} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {filteredProjects.length === 0 && (
+                            <div className="text-center py-20">
+                                <div className="w-24 h-24 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <Search size={48} className="text-purple-600" />
+                                </div>
+                                <h3 className="text-3xl font-bold text-gray-900 mb-3">No projects found</h3>
+                                <p className="text-gray-600 mb-6">Try adjusting your search or filters</p>
+                                <button
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setSelectedCategory('all');
+                                    }}
+                                    className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold hover:shadow-lg transition-all"
+                                >
+                                    Clear Filters
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                {/* CTA Section */}
+                <section className="py-24 px-4 bg-gradient-to-br from-purple-900 via-blue-900 to-slate-900 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-10">
+                        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+                        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+                    </div>
+
+                    <div className="max-w-4xl mx-auto text-center relative z-10">
+                        <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+                            <Award size={40} className="text-white" />
+                        </div>
+                        <h2 className="text-5xl md:text-6xl font-black mb-6 text-white">
+                            Ready to Create Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">Dream Space?</span>
+                        </h2>
+                        <p className="text-xl text-purple-200 mb-10 max-w-2xl mx-auto">
+                            Let's transform your vision into reality. Our award-winning team is ready to bring your project to life.
+                        </p>
+                        <div className="flex flex-wrap gap-4 justify-center">
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transition-all hover:scale-105 flex items-center gap-3"
+                            >
+                                Start Your Project With Subhash Interiors
+                                <ArrowRight size={24} />
+                            </button>
+
+                        </div>
+                    </div>
+                </section>
+
+                {/* Modal */}
+                {selectedProject && (
+                    <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+                )}
+
+                <style jsx>{`
                 @keyframes gradient {
                     0%, 100% { background-position: 0% 50%; }
                     50% { background-position: 100% 50%; }
@@ -955,6 +1002,155 @@ export default function PortfolioPage() {
                 }
             `}</style>
             </div>
+            {/* Contact Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-black bg-opacity-70 backdrop-blur-md overflow-y-auto">
+                    <div className="relative w-full max-w-4xl my-auto">
+                        <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col md:flex-row animate-fadeIn">
+
+                            {/* Decorative Side Panel */}
+                            <div className="hidden md:block md:w-2/5 bg-gradient-to-br from-purple-50 via-blue-50 to-purple-100 relative flex-shrink-0">
+                                <div className="absolute inset-0 opacity-20" style={{
+                                    backgroundImage: 'url(https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop)',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                }}></div>
+                                <div className="relative h-full flex flex-col justify-center p-6 lg:p-10 text-gray-800">
+                                    <h4 className="text-2xl lg:text-3xl font-bold mb-3 lg:mb-4">Let's Create Magic</h4>
+                                    <p className="text-base lg:text-lg mb-4 lg:mb-6 opacity-90">Share your vision and let our award-winning team bring it to life.</p>
+                                    <div className="space-y-2 lg:space-y-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <Award className="w-4 h-4 lg:w-5 lg:h-5 text-purple-700" />
+                                            </div>
+                                            <span className="font-medium text-sm lg:text-base">15+ Design Awards</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <Users className="w-4 h-4 lg:w-5 lg:h-5 text-purple-700" />
+                                            </div>
+                                            <span className="font-medium text-sm lg:text-base">500+ Happy Clients</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <Star className="w-4 h-4 lg:w-5 lg:h-5 text-purple-700" />
+                                            </div>
+                                            <span className="font-medium text-sm lg:text-base">98% Satisfaction Rate</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Close Button */}
+                            <button
+                                onClick={closeModal}
+                                className="absolute top-3 right-3 sm:top-4 sm:right-4 lg:top-6 lg:right-6 p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all z-10"
+                            >
+                                <X size={20} className="sm:w-6 sm:h-6" />
+                            </button>
+
+                            {/* Modal Content */}
+                            <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10">
+                                {!submitSuccess ? (
+                                    <>
+                                        <div className="mb-4 sm:mb-6 lg:mb-8 pr-8">
+                                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">Start Your Project</h3>
+                                            <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Tell us about your dream space and let's make it a reality.</p>
+                                        </div>
+
+                                        <div className="space-y-3 sm:space-y-4 lg:space-y-5">
+                                            <div>
+                                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Your Name *</label>
+                                                <div className="relative">
+                                                    <User className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        value={formData.name}
+                                                        onChange={handleInputChange}
+                                                        placeholder="John Doe"
+                                                        className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all hover:border-gray-300"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                                <div>
+                                                    <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Email Address *</label>
+                                                    <div className="relative">
+                                                        <Mail className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                        <input
+                                                            type="email"
+                                                            name="email"
+                                                            value={formData.email}
+                                                            onChange={handleInputChange}
+                                                            placeholder="john@example.com"
+                                                            className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all hover:border-gray-300"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Phone Number</label>
+                                                    <div className="relative">
+                                                        <Phone className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                        <input
+                                                            type="tel"
+                                                            name="phone"
+                                                            value={formData.phone}
+                                                            onChange={handleInputChange}
+                                                            placeholder="+1 (555) 000-0000"
+                                                            className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all hover:border-gray-300"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Project Details *</label>
+                                                <div className="relative">
+                                                    <MessageSquare className="absolute left-3 sm:left-4 top-3 sm:top-4 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <textarea
+                                                        name="message"
+                                                        value={formData.message}
+                                                        onChange={handleInputChange}
+                                                        rows={3}
+                                                        placeholder="Tell us about your project - space type, size, style preferences..."
+                                                        className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all resize-none hover:border-gray-300"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                onClick={handleSubmit}
+                                                disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
+                                                className="w-full py-3 sm:py-4 px-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-300 transition-all transform hover:scale-[1.02] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                            >
+                                                {isSubmitting ? (
+                                                    <span className="flex items-center justify-center">
+                                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                        </svg>
+                                                        Sending...
+                                                    </span>
+                                                ) : 'Submit Inquiry'}
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="text-center py-8 sm:py-12">
+                                        <div className="mb-4 sm:mb-6 inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full">
+                                            <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600" />
+                                        </div>
+                                        <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">Inquiry Received!</h3>
+                                        <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Our design team will reach out within 24 hours to discuss your project.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <Footer />
         </>
     );

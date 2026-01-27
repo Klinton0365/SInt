@@ -1,4 +1,8 @@
 "use client";
+// import { useState } from 'react';
+import Link from 'next/link';
+import { X, Mail, User, Phone, MessageSquare } from 'lucide-react';
+import { contactService } from '@/services/contactService';
 import React, { useState, useEffect } from 'react';
 import {
     Home, Building2, Store, Palette, Ruler, Lightbulb,
@@ -13,6 +17,50 @@ export default function ServicesPage() {
     const [activeService, setActiveService] = useState(0);
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
+
+    // Contact Modal States
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    // Form handlers
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async () => {
+        if (!formData.name || !formData.email || !formData.message) return;
+
+        setIsSubmitting(true);
+        try {
+            const response = await contactService.submitContact(formData);
+            if (response.success) {
+                setSubmitSuccess(true);
+                setTimeout(() => {
+                    setIsModalOpen(false);
+                    setSubmitSuccess(false);
+                    setFormData({ name: '', email: '', phone: '', message: '' });
+                }, 2000);
+            }
+        } catch (error) {
+            console.error('Failed to submit:', error);
+            alert('Failed to send message. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSubmitSuccess(false);
+    };
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -179,10 +227,13 @@ export default function ServicesPage() {
                         Comprehensive interior design solutions tailored to your unique vision and lifestyle
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <button className="px-8 py-4 bg-white text-purple-900 rounded-full font-semibold hover:bg-purple-50 transition-all hover:scale-105 flex items-center gap-2">
+                        <Link href="/portfolio" className="px-8 py-4 bg-white text-purple-900 rounded-full font-semibold hover:bg-purple-50 transition-all hover:scale-105 flex items-center gap-2">
                             View Our Work <ArrowRight size={20} />
-                        </button>
-                        <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold border-2 border-white/30 hover:bg-white/20 transition-all">
+                        </Link>
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold border-2 border-white/30 hover:bg-white/20 transition-all"
+                        >
                             Get Free Consultation
                         </button>
                     </div>
@@ -354,17 +405,178 @@ export default function ServicesPage() {
                         Let's bring your vision to life. Schedule a free consultation with our design experts today.
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all hover:scale-105 flex items-center gap-2 shadow-xl">
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all hover:scale-105 flex items-center gap-2 shadow-xl"
+                        >
                             Get Started Now <ArrowRight size={20} />
                         </button>
-                        <button className="px-8 py-4 bg-white text-purple-900 rounded-full font-semibold border-2 border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all shadow-lg">
+                        <Link href="/portfolio" className="px-8 py-4 bg-white text-purple-900 rounded-full font-semibold border-2 border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all shadow-lg">
                             View Portfolio
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </section>
+            {/* Contact Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black bg-opacity-70 backdrop-blur-md overflow-y-auto">
+                    <div className="relative w-full max-w-4xl my-auto">
+                        <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col md:flex-row animate-fadeIn">
+
+                            {/* Decorative Side Panel */}
+                            <div className="hidden md:block md:w-2/5 bg-gradient-to-br from-purple-50 via-blue-50 to-purple-100 relative flex-shrink-0">
+                                <div className="absolute inset-0 opacity-20" style={{
+                                    backgroundImage: 'url(https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop)',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                }}></div>
+                                <div className="relative h-full flex flex-col justify-center p-6 lg:p-10 text-gray-800">
+                                    <h4 className="text-2xl lg:text-3xl font-bold mb-3 lg:mb-4">Transform Your Space</h4>
+                                    <p className="text-base lg:text-lg mb-4 lg:mb-6 opacity-90">Let's bring your interior design vision to life with our expert team.</p>
+                                    <div className="space-y-2 lg:space-y-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <Award className="w-4 h-4 lg:w-5 lg:h-5 text-purple-700" />
+                                            </div>
+                                            <span className="font-medium text-sm lg:text-base">Expert Designers</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <Shield className="w-4 h-4 lg:w-5 lg:h-5 text-purple-700" />
+                                            </div>
+                                            <span className="font-medium text-sm lg:text-base">Quality Guarantee</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-white bg-opacity-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <Clock className="w-4 h-4 lg:w-5 lg:h-5 text-purple-700" />
+                                            </div>
+                                            <span className="font-medium text-sm lg:text-base">Timely Delivery</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Close Button */}
+                            <button
+                                onClick={closeModal}
+                                className="absolute top-3 right-3 sm:top-4 sm:right-4 lg:top-6 lg:right-6 p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all z-10"
+                            >
+                                <X size={20} className="sm:w-6 sm:h-6" />
+                            </button>
+
+                            {/* Modal Content */}
+                            <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10">
+                                {!submitSuccess ? (
+                                    <>
+                                        <div className="mb-4 sm:mb-6 lg:mb-8 pr-8">
+                                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">Start Your Journey</h3>
+                                            <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Share your vision with us and let's create something extraordinary together.</p>
+                                        </div>
+
+                                        <div className="space-y-3 sm:space-y-4 lg:space-y-5">
+                                            <div>
+                                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Your Name *</label>
+                                                <div className="relative">
+                                                    <User className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        value={formData.name}
+                                                        onChange={handleInputChange}
+                                                        placeholder="John Doe"
+                                                        className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all hover:border-gray-300"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                                <div>
+                                                    <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Email Address *</label>
+                                                    <div className="relative">
+                                                        <Mail className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                        <input
+                                                            type="email"
+                                                            name="email"
+                                                            value={formData.email}
+                                                            onChange={handleInputChange}
+                                                            placeholder="john@example.com"
+                                                            className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all hover:border-gray-300"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Phone Number</label>
+                                                    <div className="relative">
+                                                        <Phone className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                        <input
+                                                            type="tel"
+                                                            name="phone"
+                                                            value={formData.phone}
+                                                            onChange={handleInputChange}
+                                                            placeholder="+1 (555) 000-0000"
+                                                            className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all hover:border-gray-300"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">Your Message *</label>
+                                                <div className="relative">
+                                                    <MessageSquare className="absolute left-3 sm:left-4 top-3 sm:top-4 text-purple-600 w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <textarea
+                                                        name="message"
+                                                        value={formData.message}
+                                                        onChange={handleInputChange}
+                                                        rows={3}
+                                                        placeholder="Tell us about your dream space..."
+                                                        className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all resize-none hover:border-gray-300"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                onClick={handleSubmit}
+                                                disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
+                                                className="w-full py-3 sm:py-4 px-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-300 transition-all transform hover:scale-[1.02] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                            >
+                                                {isSubmitting ? (
+                                                    <span className="flex items-center justify-center">
+                                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                        </svg>
+                                                        Sending...
+                                                    </span>
+                                                ) : 'Start Your Project'}
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="text-center py-8 sm:py-12">
+                                        <div className="mb-4 sm:mb-6 inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full">
+                                            <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600" />
+                                        </div>
+                                        <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">Message Received!</h3>
+                                        <p className="text-gray-600 text-sm sm:text-base lg:text-lg">Our team will reach out within 24 hours.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <style jsx>{`
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+`}</style>
 
             <Footer />
+
         </>
     );
 }

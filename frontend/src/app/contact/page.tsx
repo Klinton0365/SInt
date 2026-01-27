@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import {
   Mail, Phone, MapPin, Clock, Send, MessageSquare, 
@@ -217,7 +218,7 @@ export default function ContactPage() {
       </section>
 
       {/* Main Contact Section */}
-      <section id="contact-form" className="py-20 px-4">
+      <section id="contact-form" className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-purple-100 rounded-full mb-6">
@@ -512,10 +513,13 @@ export default function ContactPage() {
               Schedule Call
               <Phone size={24} />
             </button>
-            <button className="px-10 py-5 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white/30 hover:bg-white/20 transition-all hover:scale-105 flex items-center gap-3">
+            {/* <button className="px-10 py-5 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white/30 hover:bg-white/20 transition-all hover:scale-105 flex items-center gap-3">
               View Portfolio
               <ArrowRight size={24} />
-            </button>
+            </button> */}
+             <Link href="/portfolio" className="px-10 py-5 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white/30 hover:bg-white/20 transition-all hover:scale-105 flex items-center gap-3">
+                                        View Portfolio
+                                    </Link>
           </div>
         </div>
       </section>
