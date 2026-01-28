@@ -25,14 +25,16 @@ const ARTICLES = [
 export function Articles() {
   return (
     <section className="container mx-auto px-8 py-20">
-      <Typography variant="h2" color="blue-gray">
+      <Typography as="h2" variant="h2" color="blue-gray">
         Other Articles
       </Typography>
+
       <Typography
+        as="p"
         variant="lead"
         className="my-2 w-full font-normal !text-gray-500 lg:w-5/12"
       >
-        Check out what&apos;s new in the web development and tech worls! Do not
+        Check out what&apos;s new in the web development and tech world! Do not
         forget to subscribe to our blog and we will notify you with the latest
         news.
       </Typography>
@@ -45,4 +47,5 @@ export function Articles() {
     </section>
   );
 }
+
 export default Articles;
