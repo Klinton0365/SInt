@@ -15,6 +15,8 @@ return [
         'http://localhost:3000',
         'http://localhost:3001',
         'http://127.0.0.1:3000',
+        'https://test.pureaquatech.in/api',
+        'https://test.pureaquatech.in',
         // Add your production domain here
         // 'https://yourdomain.com',
     ],
