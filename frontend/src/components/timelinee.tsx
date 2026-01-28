@@ -390,7 +390,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         </motion.p>
 
         <motion.h2
-          className="text-4xl md:text-7xl mb-6 text-white max-w-4xl font-bold leading-tight"
+          className="text-4xl md:text-7xl mb-6 text-blue max-w-4xl font-bold leading-tight"
           initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
           animate={
             headerInView
